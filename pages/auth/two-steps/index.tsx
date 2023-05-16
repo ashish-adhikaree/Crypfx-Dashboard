@@ -1,7 +1,7 @@
 import { Grid, Box, Typography } from '@mui/material';
-import PageContainer from '../../../../src/components/container/Pagecontainer';
-import Logo from '../../../../src/layouts/full/shared/logo/Logo';
-import AuthTwoSteps from '../../authForms/AuthTwoSteps';
+import PageContainer from '../../../src/components/container/Pagecontainer';
+import Logo from '../../../src/layouts/full/shared/logo/Logo';
+import AuthTwoSteps from '../authForms/AuthTwoSteps';
 
 const TwoSteps = () => (
   <PageContainer title="Two Steps" description="this is Two Steps page">
