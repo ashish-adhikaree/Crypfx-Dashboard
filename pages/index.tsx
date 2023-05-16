@@ -5,8 +5,9 @@ import WelcomeCard from "../src/components/Dashboard/welcomecard";
 import Objectives from "../src/components/Dashboard/objectives";
 import TradeTable from "../src/components/Dashboard/tradetable";
 import StatsTable from "../src/components/Dashboard/statstable";
-import AvailablePayoutIcon from "../public/images/icons/available-payout.png"
-import FundingIcon from "../public/images/icons/funding.png"
+import AvailablePayoutIcon from "../public/images/icons/available-payout.png";
+import FundingIcon from "../public/images/icons/funding.png";
+import ProfitChart from "../src/components/Dashboard/profitchart";
 const BCrumb = [
   {
     to: "/",
@@ -27,10 +28,10 @@ export default function Home() {
               <WelcomeCard />
             </Grid>
             <Grid item xs={12} sm={6} lg={3}>
-              <AreaGraph title="Funding Capital" icon = {FundingIcon}/>
+              <AreaGraph title="Funding Capital" icon={FundingIcon} />
             </Grid>
             <Grid item xs={12} sm={6} lg={3}>
-              <AreaGraph title="Available Payout" icon = {AvailablePayoutIcon}/>
+              <AreaGraph title="Available Payout" icon={AvailablePayoutIcon} />
             </Grid>
           </Grid>
         </Grid>
@@ -39,10 +40,13 @@ export default function Home() {
             <Grid item xs={12} sm={6} lg={4}>
               <Objectives />
             </Grid>
+            <Grid item xs={12} sm={6} lg={8}>
+              <ProfitChart />
+            </Grid>
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <Grid container spacing = {3}>
+          <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
               <StatsTable />
             </Grid>
