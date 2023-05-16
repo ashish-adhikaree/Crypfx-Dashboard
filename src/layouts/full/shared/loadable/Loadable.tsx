@@ -1,13 +1,13 @@
 import React, { Suspense } from 'react';
 
 // project imports
-import Spinner from '../../../../../pages/spinner/Spinner';
+import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
 
 // ===========================|| LOADABLE - LAZY LOADING ||=========================== //
 
 const Loadable = (Component: any) => (props: any) =>
   (
-    <Suspense fallback={<Spinner />}>
+    <Suspense fallback={<CircularProgress />}>
       <Component {...props} />
     </Suspense>
   );
