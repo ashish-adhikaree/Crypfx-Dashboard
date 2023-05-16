@@ -2,11 +2,6 @@ import dynamic from "next/dynamic";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import { useTheme } from "@mui/material/styles";
 import { Stack, Typography, Avatar, Fab } from "@mui/material";
-import {
-  IconArrowDownRight,
-  IconArrowUpRight,
-  IconCurrencyDollar,
-} from "@tabler/icons-react";
 
 import DashboardCard from "../shared/DashboardCard";
 import { StaticImageData } from "next/image";
@@ -51,6 +46,7 @@ const AreaGraph: React.FC<PROPS> = ({ title, icon }) => {
       size: 0,
     },
     tooltip: {
+      enabled: false,
       theme: theme.palette.mode === "dark" ? "dark" : "light",
     },
   };
