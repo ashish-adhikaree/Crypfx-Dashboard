@@ -21,27 +21,22 @@ const ProfitChart = () => {
       },
       height: 280,
     },
-    colors: [
-      primarylight,
-      primarylight,
-      primary,
-      primarylight,
-      primarylight,
-      primarylight,
-    ],
+    colors: [primary, "rgba(58, 58, 58, .15)"],
+    stroke: {
+      show: true,
+      width: 4,
+      colors: ["transparent"],
+    },
     plotOptions: {
       bar: {
         borderRadius: 4,
-        columnWidth: "45%",
-        distributed: true,
+        columnWidth: "40%",
         endingShape: "rounded",
       },
     },
+
     dataLabels: {
       enabled: false,
-    },
-    legend: {
-      show: false,
     },
     grid: {
       yaxis: {
@@ -51,7 +46,14 @@ const ProfitChart = () => {
       },
     },
     xaxis: {
-      categories: [["Apr"], ["May"], ["June"], ["July"], ["Aug"], ["Sept"]],
+      categories: [
+        ["12th May"],
+        ["13th May"],
+        ["14th May"],
+        ["15th May"],
+        ["16th May"],
+        ["17th May"],
+      ],
       axisBorder: {
         show: false,
       },
@@ -65,22 +67,32 @@ const ProfitChart = () => {
       enabled: false,
       theme: theme.palette.mode === "dark" ? "dark" : "light",
     },
+    legend: {
+      show: true,
+      position: "bottom",
+      width: "50px",
+    },
   };
   const seriescolumnchart = [
     {
-      name: "",
+      name: "Gain",
       data: [20, 15, 30, 25, 10, 15],
+    },
+    {
+      name: "Drawdown",
+      data: [10, 12, 5, 9, 11, 13],
     },
   ];
 
   return (
     <DashboardWidgetCard
-      title="Employee Salary"
-      subtitle="Every month"
-      dataLabel1="Salary"
-      dataItem1="$36,358"
-      dataLabel2="Profit"
-      dataItem2="$5,296"
+      title="Gain and Drawdown"
+      subtitle="Every day"
+      dataLabel1="Total Gain"
+      dataItem1="-"
+      dataLabel2="Total Drawdown"
+      dataItem2="-"
+      height="100%"
     >
       <>
         <Chart

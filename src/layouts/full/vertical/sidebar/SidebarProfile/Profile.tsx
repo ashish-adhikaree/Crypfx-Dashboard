@@ -5,6 +5,8 @@ import {
   IconButton,
   Tooltip,
   useMediaQuery,
+  Button,
+  Modal,
 } from "@mui/material";
 import { useSelector } from "../../../../../store/Store";
 import { IconPower } from "@tabler/icons-react";
@@ -12,6 +14,11 @@ import { AppState } from "../../../../../store/Store";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import axios from "axios";
+import { errorToast, successToast } from "../../../../../../customToasts";
+import { useState, useContext } from "react";
+import { AuthContext } from "../../../../../../context";
+import DefaultUserImage from "../../../../../../public/images/profile/defaultuser.png";
 
 export const Profile = () => {
   const customizer = useSelector((state: AppState) => state.customizer);
@@ -20,6 +27,23 @@ export const Profile = () => {
     ? customizer.isCollapse && !customizer.isSidebarHover
     : "";
   const router = useRouter();
+  const [isAlertOpen, setAlert] = useState(false);
+  const { image, fullname, type } = useContext(AuthContext);
+
+  const handleLogout = async () => {
+    try {
+      const { data } = await axios.get("/api/auth/logout");
+      if (data.status == "success") {
+        successToast(data.message);
+        router.push("/auth/login");
+      } else if (data.status == "error") {
+        errorToast(data.message);
+      }
+    } catch {
+      errorToast("Something went wrong. Please refresh the page");
+    }
+  };
+
   return (
     <Box
       display={"flex"}
@@ -33,17 +57,80 @@ export const Profile = () => {
         cursor: "pointer",
       }}
     >
+      <Modal
+        open={isAlertOpen}
+        onClose={() => {
+          setAlert(false);
+        }}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Box sx={{ background: "#ffffff", padding: "30px" }}>
+          <Typography
+            color="error"
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+          >
+            Are you sure you want to logout?
+          </Typography>
+          <Box sx={{ marginTop: "30px" }}>
+            <Button
+              variant="outlined"
+              color="primary"
+              sx={{
+                mr: 1,
+              }}
+              onClick={() => {
+                setAlert(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => {
+                handleLogout();
+                setAlert(false);
+              }}
+            >
+              Confirm
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
       {!hideMenu ? (
         <>
-          <Avatar alt="Remy Sharp" src={"/images/profile/user-1.jpg"} />
-
+          {image ? (
+            <Avatar alt={fullname} src={image} />
+          ) : (
+            <Avatar
+              sx={{
+                height: "30px",
+                width: "30px",
+                backgroundColor: "rgba(58, 58, 58, .15)",
+              }}
+              alt={fullname}
+              src={DefaultUserImage.src}
+            />
+          )}
           <Box
             onClick={() => {
-              router.push("/profile/1");
+              router.push("/profile");
             }}
           >
-            <Typography variant="h6">Mathew</Typography>
-            <Typography variant="caption">Trader</Typography>
+            <Typography variant="h6" style={{ textTransform: "capitalize" }}>
+              {fullname.split(" ")[0]}
+            </Typography>
+            <Typography variant="caption">
+              {type === "Customer" ? "Trader" : "Admin"}
+            </Typography>
           </Box>
           <Box sx={{ ml: "auto" }}>
             <Tooltip title="Logout" placement="top">
@@ -51,8 +138,9 @@ export const Profile = () => {
                 sx={{
                   color: "#3a3a3a",
                 }}
-                component={Link}
-                href="/auth/login"
+                onClick={() => {
+                  setAlert(true);
+                }}
                 aria-label="logout"
                 size="small"
               >

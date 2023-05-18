@@ -3,6 +3,9 @@ import { Card, CardContent, Typography, Box, Stack } from '@mui/material';
 import { useSelector } from '../../../src/store/Store';
 import { AppState } from '../../../src/store/Store';
 import { IconGridDots } from '@tabler/icons-react';
+import MonetizationOnRoundedIcon from "@mui/icons-material/MonetizationOnRounded";
+import ArrowDownwardRoundedIcon from "@mui/icons-material/ArrowDownwardRounded";
+
 
 type Props = {
   title: string;
@@ -12,6 +15,7 @@ type Props = {
   dataLabel2: string;
   dataItem2: string;
   children: JSX.Element;
+  height?: string
 };
 
 const DashboardWidgetCard = ({
@@ -22,6 +26,7 @@ const DashboardWidgetCard = ({
   dataItem1,
   dataLabel2,
   dataItem2,
+  height
 }: Props) => {
   const customizer = useSelector((state: AppState) => state.customizer);
 
@@ -30,7 +35,7 @@ const DashboardWidgetCard = ({
 
   return (
     <Card
-      sx={{ padding: 0, border: !customizer.isCardShadow ? `1px solid ${borderColor}` : 'none' }}
+      sx={{ padding: 0, border: !customizer.isCardShadow ? `1px solid ${borderColor}` : 'none', height: height? height: 'auto' }}
       elevation={customizer.isCardShadow ? 9 : 0}
       variant={!customizer.isCardShadow ? 'outlined' : undefined}
     >
@@ -51,7 +56,7 @@ const DashboardWidgetCard = ({
 
         {children}
 
-        <Stack direction="row" spacing={2} justifyContent="space-between" mt={2}>
+        <Stack direction="row" spacing={5} justifyContent="center" mt={2}>
           <Stack direction="row" spacing={2} alignItems="center">
             <Box
               width={38}
@@ -67,7 +72,7 @@ const DashboardWidgetCard = ({
                 alignItems="center"
                 justifyContent="center"
               >
-                <IconGridDots width={22} />
+                <MonetizationOnRoundedIcon width={18} />
               </Typography>
             </Box>
             <Box>
@@ -83,18 +88,18 @@ const DashboardWidgetCard = ({
             <Box
               width={38}
               height={38}
-              bgcolor="grey.200"
+              bgcolor="#FDEDE8"
               display="flex"
               alignItems="center"
               justifyContent="center"
             >
               <Typography
-                color="grey.400"
+                color="#FA896B"
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
               >
-                <IconGridDots width={22} />
+                <ArrowDownwardRoundedIcon width={18}/>
               </Typography>
             </Box>
             <Box>

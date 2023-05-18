@@ -7,7 +7,10 @@ import {
   Grid,
 } from "@mui/material";
 import { useRouter } from "next/router";
-const WelcomeCard = () => {
+const WelcomeCard: React.FC<{ type: string; fullname: string }> = ({
+  type,
+  fullname,
+}) => {
   const router = useRouter();
   return (
     <Card
@@ -21,7 +24,7 @@ const WelcomeCard = () => {
     >
       <CardContent
         sx={{
-          position: 'relative',
+          position: "relative",
           zIndex: 40,
           padding: 0,
           margin: 0,
@@ -38,25 +41,39 @@ const WelcomeCard = () => {
             margin: 0,
           }}
         >
-          <Typography variant="h5">Welcome back Mathew!</Typography>
-          <Typography variant="subtitle2" my={2} color="textSecondary">
-            Complete the questionnaires if you are serious about getting our
-            funded account as our accounts are limited.
-          </Typography>
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: "#3a3a3a",
-              "&:hover": {
-                backgroundColor: "#3a3a3a",
-              },
-            }}
-            onClick={() => {
-              router.push("/questionnaires");
-            }}
-          >
-            Complete now
-          </Button>
+          {type == "Customer" ? (
+            <>
+              <Typography variant="h5">
+                Welcome back{" "}
+                <span style={{ textTransform: "capitalize" }}>{fullname}</span>!
+              </Typography>
+              <Typography variant="subtitle2" my={2} color="textSecondary">
+                Complete the questionnaires if you are serious about getting our
+                funded account as our accounts are limited.
+              </Typography>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#3a3a3a",
+                  "&:hover": {
+                    backgroundColor: "#3a3a3a",
+                  },
+                }}
+                onClick={() => {
+                  router.push("/questionnaires");
+                }}
+              >
+                Complete now
+              </Button>
+            </>
+          ) : (
+            <>
+              <Typography variant="h5" padding={5}>
+                Welcome{" "}
+                <span style={{ textTransform: "capitalize" }}>{fullname}!</span>
+              </Typography>
+            </>
+          )}
         </div>
       </CardContent>
     </Card>

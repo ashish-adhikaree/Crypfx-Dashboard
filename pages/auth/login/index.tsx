@@ -1,104 +1,73 @@
-import Link from "next/link";
-import { Grid, Box, Stack, Typography } from "@mui/material";
-import PageContainer from "../../../src/components/container/Pagecontainer";
-import Logo from "../../../src/layouts/full/shared/logo/Logo";
+import { Grid, Box, Typography } from "@mui/material";
 import AuthLogin from "../authForms/AuthLogin";
+import Head from "next/head";
 
-const Login = () => (
-  <PageContainer title="Login" description="this is Login page">
-    <Grid
-      container
-      spacing={0}
-      justifyContent="center"
-      sx={{ height: "100vh" }}
-    >
+const Login = () => {
+
+  return (
+    <>
+      <Head>
+        <title> Login | Crypfx</title>
+      </Head>
       <Grid
-        item
-        xs={12}
-        sm={12}
-        lg={7}
-        xl={8}
-        sx={{
-          position: "relative",
-          "&:before": {
-            content: '""',
-            background: "radial-gradient(#d2f1df, #d3d7fa, #bad8f4)",
-            backgroundSize: "400% 400%",
-            animation: "gradient 15s ease infinite",
-            position: "absolute",
-            height: "100%",
-            width: "100%",
-            opacity: "0.3",
-          },
-        }}
+        container
+        spacing={0}
+        justifyContent="center"
+        sx={{ height: "100vh" }}
       >
-        <Box position="relative">
-          <Box px={3}>
-            <Logo />
-          </Box>
+        <Grid
+          item
+          sx={{ height: "100%", display: { xs: "none", md: "block" } }}
+          md={6}
+        >
           <Box
-            alignItems="center"
-            justifyContent="center"
-            height={"calc(100vh - 75px)"}
             sx={{
-              display: {
-                xs: "none",
-                lg: "flex",
-              },
+              height: "100%",
+              width: "100%",
+              background:
+                "linear-gradient(0deg, rgba(59,70,89,1) 10%, rgba(28,33,43,1) 100%)",
+              borderRadius: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "10px",
             }}
           >
-            <img
-              src={"/backgrounds/login-bg.svg"}
-              alt="bg"
-              style={{
-                width: "100%",
-                maxWidth: "500px",
+            <Typography
+              variant="h2"
+              sx={{
+                color: "white",
+                fontSize: { xs: "24px", sm: "30px", lg: "42px" },
+                lineHeight: { lg: "46px" },
               }}
-            />
+            >
+              We provide the capital. <br /> You produce the pips. <br /> That
+              simple.
+            </Typography>
           </Box>
-        </Box>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          width={"100%"}
+          display="flex"
+          justifyContent="center"
+          alignItems="start"
+        >
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            sx={{ width: "100%" }}
+            p={4}
+          >
+            <AuthLogin subtitle={<></>}/>
+          </Box>
+        </Grid>
       </Grid>
-      <Grid
-        item
-        xs={12}
-        sm={12}
-        lg={5}
-        xl={4}
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Box p={4}>
-          <AuthLogin
-            title="Welcome to Modernize"
-            subtext={
-              <Typography variant="subtitle1" color="textSecondary" mb={1}>
-                Your Admin Dashboard
-              </Typography>
-            }
-            subtitle={
-              <Stack direction="row" spacing={1} mt={3}>
-                <Typography color="textSecondary" variant="h6" fontWeight="500">
-                  New to Modernize?
-                </Typography>
-                <Typography
-                  component={Link}
-                  href="/auth/auth1/register"
-                  fontWeight="500"
-                  sx={{
-                    textDecoration: "none",
-                    color: "primary.main",
-                  }}
-                >
-                  Create an account
-                </Typography>
-              </Stack>
-            }
-          />
-        </Box>
-      </Grid>
-    </Grid>
-  </PageContainer>
-);
+    </>
+  );
+};
 
 export default Login;

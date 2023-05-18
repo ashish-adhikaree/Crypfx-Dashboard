@@ -1,5 +1,5 @@
-import React from 'react';
-import Link from 'next/link';
+import React, { useContext } from "react";
+import Link from "next/link";
 
 // mui imports
 import {
@@ -11,10 +11,11 @@ import {
   useTheme,
   Typography,
   ListItemButton,
-} from '@mui/material';
-import { useSelector } from '../../../../../store/Store';
-import { useTranslation } from 'react-i18next';
-import { AppState } from '../../../../../store/Store';
+} from "@mui/material";
+import { useSelector } from "../../../../../store/Store";
+import { useTranslation } from "react-i18next";
+import { AppState } from "../../../../../store/Store";
+import { AuthContext } from "../../../../../../context";
 
 type NavGroup = {
   [x: string]: any;
@@ -47,29 +48,33 @@ const NavItem = ({ item, level, pathDirect, hideMenu, onClick }: ItemType) => {
   const theme = useTheme();
   const { t } = useTranslation();
   const itemIcon =
-    level > 1 ? <Icon stroke={1.5} size="1rem" /> : <Icon stroke={1.5} size="1.3rem" />;
+    level > 1 ? (
+      <Icon stroke={1.5} size="1rem" />
+    ) : (
+      <Icon stroke={1.5} size="1.3rem" />
+    );
 
   const ListItemStyled = styled(ListItemButton)(() => ({
-    whiteSpace: 'nowrap',
-    marginBottom: '2px',
-    padding: '8px 10px',
+    whiteSpace: "nowrap",
+    marginBottom: "2px",
+    padding: "8px 10px",
     borderRadius: `${customizer.borderRadius}px`,
-    backgroundColor: level > 1 ? 'transparent !important' : 'inherit',
+    backgroundColor: level > 1 ? "transparent !important" : "inherit",
     color:
       level > 1 && pathDirect === item?.href
         ? `${theme.palette.primary.main}!important`
         : theme.palette.text.secondary,
-    paddingLeft: hideMenu ? '10px' : level > 2 ? `${level * 15}px` : '10px',
-    '&:hover': {
-      backgroundColor: '#51515186',
-      color: '#ffffff',
+    paddingLeft: hideMenu ? "10px" : level > 2 ? `${level * 15}px` : "10px",
+    "&:hover": {
+      backgroundColor: "#51515186",
+      color: "#ffffff",
     },
-    '&.Mui-selected': {
-      color: 'white',
-      backgroundColor: '#3a3a3a',
-      '&:hover': {
-        backgroundColor: '#3a3a3a',
-        color: 'white',
+    "&.Mui-selected": {
+      color: "white",
+      backgroundColor: "#3a3a3a",
+      "&:hover": {
+        backgroundColor: "#3a3a3a",
+        color: "white",
       },
     },
   }));
@@ -80,47 +85,61 @@ const NavItem = ({ item, level, pathDirect, hideMenu, onClick }: ItemType) => {
     target?: any;
     to?: any;
   } = {
-    component: item?.external ? 'a' : Link,
+    component: item?.external ? "a" : Link,
     to: item?.href,
-    href: item?.external ? item?.href : '',
-    target: item?.external ? '_blank' : '',
+    href: item?.external ? item?.href : "",
+    target: item?.external ? "_blank" : "",
   };
+
+  const { userid } = useContext(AuthContext);
 
   return (
     <List component="li" disablePadding key={item?.id && item.title}>
-      <Link href={item.href}>
+      <Link
+        href={
+          item.title && item.title === "Chat"
+            ? `${item.href}/${userid}`
+            : item.href
+        }
+      >
         <ListItemStyled
           // {...listItemProps}
           disabled={item?.disabled}
-          selected={pathDirect === item?.href}
-          onClick={onClick}>
-
+          selected={
+            item.title && item.title === "Chat"
+              ? pathDirect === "/chat/[convid]"
+              : pathDirect === item?.href
+          }
+          onClick={onClick}
+        >
           <ListItemIcon
             sx={{
-              minWidth: '36px',
-              p: '3px 0',
+              minWidth: "36px",
+              p: "3px 0",
               color:
                 level > 1 && pathDirect === item?.href
                   ? `${theme.palette.primary.main}!important`
-                  : 'inherit',
+                  : "inherit",
             }}
           >
             {itemIcon}
           </ListItemIcon>
           <ListItemText>
-            {hideMenu ? '' : <>{t(`${item?.title}`)}</>}
+            {hideMenu ? "" : <>{t(`${item?.title}`)}</>}
             <br />
             {item?.subtitle ? (
-              <Typography variant="caption">{hideMenu ? '' : item?.subtitle}</Typography>
+              <Typography variant="caption">
+                {hideMenu ? "" : item?.subtitle}
+              </Typography>
             ) : (
-              ''
+              ""
             )}
           </ListItemText>
 
           {!item?.chip || hideMenu ? null : (
             <Chip
               color={item?.chipColor}
-              variant={item?.variant ? item?.variant : 'filled'}
+              variant={item?.variant ? item?.variant : "filled"}
               size="small"
               label={item?.chip}
             />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   CardContent,
   Grid,
@@ -7,77 +7,126 @@ import {
   Box,
   Avatar,
   Button,
+  Modal,
 } from "@mui/material";
 
 // components
-import BlankCard from "../../src/components/shared/BlankCard";
-import CustomTextField from "../../src/components/forms/theme-elements/CustomTextField";
-import CustomFormLabel from "../../src/components/forms/theme-elements/CustomFormLabel";
-import CustomSelect from "../../src/components/forms/theme-elements/CustomSelect";
+import BlankCard from "../src/components/shared/BlankCard";
+import CustomTextField from "../src/components/forms/theme-elements/CustomTextField";
+import CustomFormLabel from "../src/components/forms/theme-elements/CustomFormLabel";
+import CustomSelect from "../src/components/forms/theme-elements/CustomSelect";
 
 // images
 import { Stack } from "@mui/system";
-import PageContainer from "../../src/components/container/Pagecontainer";
-
-// locations
-const locations = [
-  {
-    value: "us",
-    label: "United States",
-  },
-  {
-    value: "uk",
-    label: "United Kingdom",
-  },
-  {
-    value: "india",
-    label: "India",
-  },
-  {
-    value: "russia",
-    label: "Russia",
-  },
-];
-
-// currency
-const currencies = [
-  {
-    value: "us",
-    label: "US Dollar ($)",
-  },
-  {
-    value: "uk",
-    label: "United Kingdom (Pound)",
-  },
-  {
-    value: "india",
-    label: "India (INR)",
-  },
-  {
-    value: "russia",
-    label: "Russia (Ruble)",
-  },
-];
+import PageContainer from "../src/components/container/Pagecontainer";
+import axios from "axios";
+import { errorToast, successToast } from "../customToasts";
 
 const AccountTab = () => {
-  const [location, setLocation] = React.useState("india");
+  const [userDetails, setUserDetails] = useState<any>({});
+  const backupUserDetails = useRef<any>();
+  const passwordFormRef = useRef<HTMLFormElement>(null);
+  const [isAlertOpen, setAlert] = useState(false);
 
-  const handleChange1 = (event: any) => {
-    setLocation(event.target.value);
+  const getUserDetails = async () => {
+    const { data } = await axios.get("/api/getUserDetails");
+    if (data.status === "success") {
+      console.log(data);
+      setUserDetails(data.data);
+      backupUserDetails.current = data.data;
+    } else if (data.status === "error") {
+      errorToast(data.message);
+    }
   };
 
-  //   currency
-  const [currency, setCurrency] = React.useState("india");
-
-  const handleChange2 = (event: any) => {
-    setCurrency(event.target.value);
+  const updateProfile = async () => {
+    const { data } = await axios.put("/api/updateProfile", userDetails);
+    if (data.status === "success") {
+      successToast(data.message);
+    } else if (data.status === "error") {
+      errorToast(data.message);
+    }
   };
 
+  const changePassword = async () => {
+    if (passwordFormRef && passwordFormRef.current) {
+      const currentpassword = passwordFormRef.current["text-cpwd"].value;
+      const newpassword = passwordFormRef.current["text-npwd"].value;
+      const confirmpassword = passwordFormRef.current["text-conpwd"].value;
+
+      if (currentpassword.length< 6 || newpassword.length < 6) {
+        errorToast("Password must be atleast 6 characters");
+        return;
+      }
+      if (newpassword !== confirmpassword) {
+        errorToast("Two Passwords do not match");
+        return;
+      }
+
+      const { data } = await axios.put("/api/auth/changePassword", {
+        currentpassword: currentpassword,
+        newpassword: newpassword,
+      });
+      
+      if (data.status === "success") {
+        successToast(data.message);
+      } else if (data.status === "error") {
+        errorToast(data.message);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getUserDetails();
+  }, []);
   return (
     <PageContainer
       title="Accunt Settings | CrypFX"
       description="This is account settings page"
     >
+      <Modal
+        open={isAlertOpen}
+        onClose={() => {
+          setAlert(false);
+        }}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Box sx={{ background: "#ffffff", padding: "30px" }}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Are you sure you want to update your profile Details?
+          </Typography>
+          <Box sx={{ marginTop: "30px" }}>
+            <Button
+              variant="outlined"
+              color="primary"
+              sx={{
+                mr: 1,
+              }}
+              onClick={() => {
+                setAlert(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                setAlert(false);
+                updateProfile();
+              }}
+            >
+              Confirm
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
       <Grid container spacing={3} paddingTop={3}>
         {/* Change Profile */}
         <Grid item xs={12} lg={6}>
@@ -132,7 +181,7 @@ const AccountTab = () => {
               <Typography color="textSecondary" mb={3}>
                 To change your password please confirm here
               </Typography>
-              <form>
+              <form ref={passwordFormRef}>
                 <CustomFormLabel
                   sx={{
                     mt: 0,
@@ -167,6 +216,13 @@ const AccountTab = () => {
                   fullWidth
                   type="password"
                 />
+                <Button
+                  onClick={changePassword}
+                  variant="contained"
+                  sx={{ marginTop: "20px" }}
+                >
+                  Change Password
+                </Button>
               </form>
             </CardContent>
           </BlankCard>
@@ -190,11 +246,17 @@ const AccountTab = () => {
                       }}
                       htmlFor="text-first-name"
                     >
-                     First Name
+                      First Name
                     </CustomFormLabel>
                     <CustomTextField
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        setUserDetails({
+                          ...userDetails,
+                          ["firstname"]: e.target.value,
+                        });
+                      }}
                       id="text-first-name"
-                      value="Mathew"
+                      value={userDetails.firstname ? userDetails.firstname : ""}
                       variant="outlined"
                       fullWidth
                     />
@@ -211,7 +273,13 @@ const AccountTab = () => {
                     </CustomFormLabel>
                     <CustomTextField
                       id="text-last-name"
-                      value="Anderson"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        setUserDetails({
+                          ...userDetails,
+                          ["lastname"]: e.target.value,
+                        });
+                      }}
+                      value={userDetails.lastname ? userDetails.lastname : ""}
                       variant="outlined"
                       fullWidth
                     />
@@ -224,11 +292,17 @@ const AccountTab = () => {
                       }}
                       htmlFor="text-location"
                     >
-                     Username
+                      Username
                     </CustomFormLabel>
                     <CustomTextField
                       id="text-username"
-                      value="username"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        setUserDetails({
+                          ...userDetails,
+                          ["username"]: e.target.value,
+                        });
+                      }}
+                      value={userDetails.username ? userDetails.username : ""}
                       variant="outlined"
                       fullWidth
                     />
@@ -245,7 +319,7 @@ const AccountTab = () => {
                     </CustomFormLabel>
                     <CustomTextField
                       id="text-email"
-                      value="info@modernize.com"
+                      value={userDetails.email ? userDetails.email : ""}
                       variant="outlined"
                       fullWidth
                     />
@@ -262,12 +336,18 @@ const AccountTab = () => {
                     </CustomFormLabel>
                     <CustomTextField
                       id="text-phone"
-                      value="+91 12345 65478"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        setUserDetails({
+                          ...userDetails,
+                          ["phone"]: e.target.value,
+                        });
+                      }}
+                      value={userDetails.phone ? userDetails.phone : ""}
                       variant="outlined"
                       fullWidth
                     />
                   </Grid>
-                 </Grid>
+                </Grid>
               </form>
             </CardContent>
           </BlankCard>
@@ -277,10 +357,26 @@ const AccountTab = () => {
             sx={{ justifyContent: "end" }}
             mt={3}
           >
-            <Button size="large" variant="contained" color="primary">
+            <Button
+              size="large"
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                setAlert(true);
+              }}
+            >
               Save
             </Button>
-            <Button size="large" variant="text" color="error">
+            <Button
+              size="large"
+              variant="text"
+              color="error"
+              onClick={() => {
+                if (backupUserDetails && backupUserDetails.current) {
+                  setUserDetails({ ...backupUserDetails.current });
+                }
+              }}
+            >
               Cancel
             </Button>
           </Stack>
