@@ -16,12 +16,11 @@ export default async function handler(
     const values = [body.email];
     if (db) {
       db.execute(query, values, function (err, results: any, fields) {
-        if (results.length === 0) {
+        if (err) {
           res.status(200).json({
             status: "error",
-            message: "Email not registered",
+            message: "Something went wrong",
           });
-          return;
         } else {
           const isPasswordRight = bcrypt.compareSync(
             password,
