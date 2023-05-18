@@ -70,3 +70,5 @@ export const AdminMenuitems: MenuitemsType[] = [
     href: "/withdraw",
   },
 ];
+
+export default () => {};
