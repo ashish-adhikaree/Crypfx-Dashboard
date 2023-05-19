@@ -21,7 +21,7 @@ export default async function handler(
             status: "error",
             message: "Something went wrong",
           });
-        } else {
+        } else if (Array.isArray(results) && results.length > 0) {
           const isPasswordRight = bcrypt.compareSync(
             password,
             results[0].password
@@ -48,6 +48,11 @@ export default async function handler(
               message: "Logged in Successfully",
             });
           }
+        } else{
+          res.status(200).json({
+            status: "error",
+            message: "No account is registered under this email"
+          })
         }
       });
       db.end();

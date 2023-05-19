@@ -8,12 +8,26 @@ import StatsTable from "../src/components/Dashboard/statstable";
 import AvailablePayoutIcon from "../public/images/icons/available-payout.png";
 import FundingIcon from "../public/images/icons/funding.png";
 import ProfitChart from "../src/components/Dashboard/profitchart";
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import { AuthContext } from "../context";
 import TopCards from "../src/components/Dashboard/adminCards";
+import axios from "axios";
 
 export default function Home() {
   const { fullname, type } = useContext(AuthContext);
+  const [stats, setStats] = useState<any>();
+  const getStats = async () => {
+    const { data } = await axios.get("/api/getStatistics");
+    if (data.status === "success") {
+      setStats(data.stats);
+    }
+  };
+
+  useEffect(() => {
+    if (type === "Admin") {
+      getStats();
+    }
+  }, []);
 
   return (
     <PageContainer
@@ -26,9 +40,9 @@ export default function Home() {
             <Grid item xs={12} lg={6} padding={0}>
               <WelcomeCard type={type} fullname={fullname} />
             </Grid>
-            {type === "Admin" && (
+            {type === "Admin" && stats && (
               <Grid item xs={12} lg={6}>
-                <TopCards />
+                <TopCards stats={stats}/>
               </Grid>
             )}
             {type === "Customer" && (
