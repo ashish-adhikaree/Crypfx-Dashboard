@@ -21,6 +21,7 @@ import { Stack } from "@mui/system";
 import PageContainer from "../src/components/container/Pagecontainer";
 import axios from "axios";
 import { errorToast, successToast } from "../customToasts";
+import Head from "next/head";
 
 const AccountTab = () => {
   const [userDetails, setUserDetails] = useState<any>({});
@@ -82,9 +83,12 @@ const AccountTab = () => {
 
   return (
     <PageContainer
-      title="Accunt Settings | CrypFX"
+      title="Account Settings | CrypFX"
       description="This is account settings page"
     >
+      <Head>
+        <title>Account Settings | CrypFX</title>
+      </Head>
       <Modal
         open={isAlertOpen}
         onClose={() => {

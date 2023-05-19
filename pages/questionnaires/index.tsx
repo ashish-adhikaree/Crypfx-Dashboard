@@ -6,6 +6,7 @@ import axios from "axios";
 import { AuthContext } from "../../context";
 import { errorToast, successToast } from "../../customToasts";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 const Questionnaire = () => {
   const [formData, setFormData] = useState<any>({});
@@ -78,6 +79,9 @@ const Questionnaire = () => {
       title="Questionnaires | Crypfx"
       description="This is Questionnaires page"
     >
+       <Head>
+        <title>Questionnaires | Crypfx</title>
+      </Head>
       {type === "Customer" ? (
         <>
           <Grid container spacing={3} paddingTop={3}>

@@ -12,6 +12,7 @@ import { useEffect, useContext, useState } from "react";
 import { AuthContext } from "../context";
 import TopCards from "../src/components/Dashboard/adminCards";
 import axios from "axios";
+import Head from "next/head";
 
 export default function Home() {
   const { fullname, type } = useContext(AuthContext);
@@ -34,6 +35,9 @@ export default function Home() {
       title="Dashboard | Crypfx"
       description="This is dashboard page"
     >
+      <Head>
+        <title>Dashboard | Crypfx</title>
+      </Head>
       <Grid container spacing={3} paddingTop={3}>
         <Grid item xs={12}>
           <Grid container spacing={3}>

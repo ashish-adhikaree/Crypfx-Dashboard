@@ -7,6 +7,7 @@ import PageContainer from "../../src/components/container/Pagecontainer";
 import { AuthContext } from "../../context";
 import CustomTable from "../../src/components/table";
 import axios from "axios";
+import Head from "next/head";
 
 const columns = [
   "TRADER",
@@ -36,6 +37,9 @@ const Withdrawal = () => {
       title="Withdraw | Crypfx"
       description="This is Withdrawal page"
     >
+       <Head>
+        <title>Withdrawals | Crypfx</title>
+      </Head>
       {type === "Customer" ? (
         <>
           <Grid container spacing={3} paddingTop={3}>

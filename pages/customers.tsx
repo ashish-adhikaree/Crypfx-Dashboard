@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import PageContainer from "../src/components/container/Pagecontainer";
 import CustomTable from "../src/components/table";
 import axios from "axios";
+import Head from "next/head";
 
 const title = "All Customers";
 const columns = [
@@ -33,6 +34,9 @@ const Customers = () => {
 
   return (
     <PageContainer>
+       <Head>
+        <title>Customers | Crypfx</title>
+      </Head>
       {allCustomers && (
         <CustomTable title={title} columns={columns} data={allCustomers} />
       )}

@@ -18,6 +18,8 @@ import { AuthContext } from "../../context";
 import { useRouter } from "next/router";
 import axios from "axios";
 import DefaultUserImage from "../../public/images/profile/defaultuser.png";
+import Head from "next/head";
+
 const Chat = () => {
   const { userid, type } = useContext(AuthContext);
   const router = useRouter();
@@ -56,6 +58,9 @@ const Chat = () => {
   if (type === "Admin" || userid === convid) {
     return (
       <PageContainer title="Chat | Crypfx">
+        <Head>
+          <title>Chat | Crypfx</title>
+        </Head>
         <Box
           sx={{
             border: "1px solid #cfcfcf",
