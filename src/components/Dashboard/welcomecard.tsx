@@ -75,10 +75,10 @@ const WelcomeCard: React.FC<{ type: string; fullname: string }> = ({
                   },
                 }}
                 onClick={() => {
-                  router.push("/questionnaires");
+                  router.push("/application");
                 }}
               >
-                Complete Questionnaires
+                Complete Application
               </Button>
             </>
           ) : (

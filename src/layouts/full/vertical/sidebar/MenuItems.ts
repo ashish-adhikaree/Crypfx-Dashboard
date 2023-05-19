@@ -32,9 +32,9 @@ export const CustomerMenuitems: MenuitemsType[] = [
   },
   {
     id: uniqueId(),
-    title: "Questionnaires",
+    title: "Application",
     icon: IconQuestionMark,
-    href: "/questionnaires",
+    href: "/application",
   },
   {
     id: uniqueId(),

@@ -139,11 +139,11 @@ const CustomTable: React.FC<{
                           variant="outlined"
                           onClick={() => {
                             router.push(
-                              `/questionnaires/${row.userid}?name=${row.firstname}`
+                              `/application/${row.userid}?name=${row.firstname}`
                             );
                           }}
                         >
-                          View Questionnaire
+                          View Applications
                         </Button>
                         <Button
                           variant="outlined"

@@ -10,7 +10,7 @@ export default async function handler(
     const body = req.body;
     if (canAccess && (type == "Admin" || uid === body.userid)) {
       const db = await getDB();
-      const query = "SELECT * from questionnaires WHERE customer = ? order by inserton desc";
+      const query = "SELECT * from applications WHERE customer = ? order by inserton desc";
       const values = [body.userid];
       if (db) {
         db.execute(query, values, function (err, results: any, fields) {
@@ -22,12 +22,12 @@ export default async function handler(
           } else if (Array.isArray(results) && results.length > 0) {
             res.status(200).json({
               status: "success",
-              questionnaires: results,
+              applications: results,
             });
           } else {
             res.status(200).json({
               status: "success",
-              questionnaires: [],
+              applications: [],
             });
           }
           db.end();

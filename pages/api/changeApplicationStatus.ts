@@ -19,10 +19,10 @@ export default async function handler(
       const db = await getDB();
       const message =
         body.status === "Accepted"
-          ? "Your questionnaire has been accepted."
+          ? "Your application has been accepted."
           : body.message;
       const query =
-        "UPDATE questionnaires set status = ?, message = ? WHERE customer = ? and status = ?";
+        "UPDATE applications set status = ?, message = ? WHERE customer = ? and status = ?";
       const values = [body.status, message, body.userid, "Under Review"];
       if (db) {
         db.execute(query, values, function (err, results: any, fields) {
@@ -35,12 +35,12 @@ export default async function handler(
           } else if (results.affectedRows !== 0) {
             res.status(200).json({
               status: "success",
-              message: "Questionnaire Status Changed Successfully",
+              message: "Application Status Changed Successfully",
             });
           } else {
             res.status(200).json({
               status: "error",
-              message: "No Questionnaire is pending review",
+              message: "No Application is pending review",
             });
           }
           db.end();

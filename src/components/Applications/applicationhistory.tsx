@@ -17,9 +17,9 @@ import {
 } from "@mui/material";
 
 
-const QuestionnaireHistory = () => {
+const ApplicationHistory = () => {
   return (
-    <DashboardCard title="Questionnaire History" action={<></>}>
+    <DashboardCard title="Application History" action={<></>}>
       <TableContainer>
         <Table
           aria-label="simple table"
@@ -102,4 +102,4 @@ const QuestionnaireHistory = () => {
   );
 };
 
-export default QuestionnaireHistory;
+export default ApplicationHistory;

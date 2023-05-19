@@ -3,32 +3,32 @@ import axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
-import QuestionnaireForm from "../../src/components/Questionnaires/questionnaireform";
+import ApplicationForm from "../../src/components/Applications/applicationform";
 import { errorToast, successToast } from "../../customToasts";
 import { AuthContext } from "../../context";
 import CustomTextField from "../../src/components/forms/theme-elements/CustomTextField";
 import CustomFormLabel from "../../src/components/forms/theme-elements/CustomFormLabel";
 
-const IndividualQuestionnaire = () => {
+const IndividualApplication = () => {
   const router = useRouter();
   const userid = router.query.userid;
   const name = router.query.name;
   const { type } = useContext(AuthContext);
   const [isAlertOpen, setAlert] = useState(false);
   const [actionBtnClicked, setactionBtnClicked] = useState<string>();
-  const [Questionnaires, setQuestionnaires] = useState<any>([]);
+  const [Applications, setApplications] = useState<any>([]);
   const [rejectionMessage, setRejectionMessage] = useState<string>("");
-  const getQuestionnaires = async () => {
-    const { data } = await axios.post("/api/getQuestionnaires", {
+  const getApplications = async () => {
+    const { data } = await axios.post("/api/getApplications", {
       userid: userid,
     });
     if (data.status === "success") {
-      setQuestionnaires(data.questionnaires);
+      setApplications(data.applications);
     }
   };
 
   const changeStatus = async (status: string, message: string) => {
-    const { data } = await axios.post("/api/changeQuestionnaireStatus", {
+    const { data } = await axios.post("/api/changeApplicationStatus", {
       userid: userid,
       status: status,
       message: message,
@@ -42,13 +42,13 @@ const IndividualQuestionnaire = () => {
   };
 
   useEffect(() => {
-    getQuestionnaires();
+    getApplications();
   }, []);
 
   return (
     <>
       <Head>
-        <title>Questionnaires | Crypfx</title>
+        <title>Application | Crypfx</title>
       </Head>
       <Modal
         open={isAlertOpen}
@@ -67,7 +67,7 @@ const IndividualQuestionnaire = () => {
           {actionBtnClicked === "Accept" && (
             <>
               <Typography id="modal-modal-title" variant="h6" component="h2">
-                Are you sure you want to accept the Questionnaire?
+                Are you sure you want to accept the application?
               </Typography>
               <Box sx={{ marginTop: "30px" }}>
                 <Button
@@ -89,7 +89,7 @@ const IndividualQuestionnaire = () => {
                     setAlert(false);
                     changeStatus(
                       "Accepted",
-                      "Your questionnaire has been accepted."
+                      "Your application has been accepted."
                     );
                   }}
                 >
@@ -106,7 +106,7 @@ const IndividualQuestionnaire = () => {
                 component="h2"
                 color="error"
               >
-                Are you sure you want to reject the Questionnaire?
+                Are you sure you want to reject the application?
               </Typography>
               <CustomFormLabel
                 sx={{
@@ -167,7 +167,7 @@ const IndividualQuestionnaire = () => {
           }}
         >
           <Typography sx={{ textTransform: "capitalize" }} variant="h4">
-            {name}'s Questionnaires
+            {name}'s Applications
           </Typography>
           <Box
             sx={{
@@ -201,12 +201,12 @@ const IndividualQuestionnaire = () => {
         </Box>
         {/* form  */}
         <Box marginTop={5}>
-          {Questionnaires.length === 0 ? (
-            <p>Hasn't submitted questionnaires yet</p>
+          {Applications.length === 0 ? (
+            <p>Hasn't submitted any applications yet</p>
           ) : (
-            Questionnaires.map((formData: any) => {
+            Applications.map((formData: any) => {
               return (
-                <QuestionnaireForm
+                <ApplicationForm
                   key={formData.id}
                   formData={formData}
                   setFormData={() => {}}
@@ -221,4 +221,4 @@ const IndividualQuestionnaire = () => {
   );
 };
 
-export default IndividualQuestionnaire;
+export default IndividualApplication;

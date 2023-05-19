@@ -24,7 +24,7 @@ type PROPS = {
   type: string;
   disableAction?: boolean;
 };
-const QuestionnaireForm: React.FC<PROPS> = ({
+const ApplicationForm: React.FC<PROPS> = ({
   formData,
   setFormData,
   handleSubmit,
@@ -117,7 +117,7 @@ const QuestionnaireForm: React.FC<PROPS> = ({
         <Typography>{message}</Typography>
       </Alert>
       <ParentCard
-        title="Questionnaires"
+        title="Applications"
         footer={
           <>
             {type === "Customer" && !disableAction && (
@@ -221,7 +221,7 @@ const QuestionnaireForm: React.FC<PROPS> = ({
                 }}
               >
                 <Box>
-                  <p>No Questionnaires approval needed (Instant Funding)</p>
+                  <p>No Application approval needed (Instant Funding)</p>
                   <FormControlLabel
                     checked={
                       formData.account
@@ -478,4 +478,4 @@ const QuestionnaireForm: React.FC<PROPS> = ({
   );
 };
 
-export default QuestionnaireForm;
+export default ApplicationForm;

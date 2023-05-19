@@ -12,7 +12,7 @@ export default async function handler(
       const body = req.body;
       const db = await getDB();
       const query =
-        "INSERT INTO questionnaires (customer, fullname, email,country, account, tradingperiod, tradertype, averagemonthlygain, riskpercentage, currencypair, forexbroker, tradingjourney, currentaccountsize, whyneedus, status, message) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        "INSERT INTO applications (customer, fullname, email,country, account, tradingperiod, tradertype, averagemonthlygain, riskpercentage, currencypair, forexbroker, tradingjourney, currentaccountsize, whyneedus, status, message) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       const values = [
         body.userid,
         body.fullname,
@@ -32,8 +32,8 @@ export default async function handler(
           ? "Accepted"
           : "Under Review",
         body.account === "$10,000 Funded" || body.account === "$25,000 Funded"
-          ? "Your questionnaire has been accepted."
-          : "Form Submitted Successfully. It is pending review from the admin",
+          ? "Your application has been accepted."
+          : "Application Submitted Successfully. It is pending review from the admin",
       ];
       if (db) {
         db.execute(query, values, function (err, results, fields) {
@@ -46,7 +46,7 @@ export default async function handler(
           } else {
             res.status(200).json({
               status: "success",
-              message: "Questionnaires Added Successfully",
+              message: "Application Added Successfully",
             });
           }
         });
