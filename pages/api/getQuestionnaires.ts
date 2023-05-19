@@ -10,7 +10,7 @@ export default async function handler(
     const body = req.body;
     if (canAccess && (type == "Admin" || uid === body.userid)) {
       const db = await getDB();
-      const query = "SELECT * from questionnaires WHERE customer = ?";
+      const query = "SELECT * from questionnaires WHERE customer = ? order by inserton desc";
       const values = [body.userid];
       if (db) {
         db.execute(query, values, function (err, results: any, fields) {
@@ -26,8 +26,8 @@ export default async function handler(
             });
           } else {
             res.status(200).json({
-              status: "error",
-              message: "No questionnaire submitted yet",
+              status: "success",
+              questionnaires: [],
             });
           }
           db.end();

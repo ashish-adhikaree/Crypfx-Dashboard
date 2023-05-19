@@ -20,11 +20,23 @@ const Questionnaire = () => {
     });
     if (data.status === "success") {
       const temp = data.questionnaires;
+      console.log(temp);
       setQuestionnaires(temp);
-      const isRejected = temp.filter((data: any) => data.status == "Rejected");
-      console.log(isRejected, "temp");
-      if (temp.length === 0 || (isRejected && isRejected.length !== 0)) {
+      const isUnderRevieworAccepted = temp.filter(
+        (data: any) =>
+          data.status == "Under Review" || data.status == "Accepted"
+      );
+      if (temp.length === 0) {
         setShowEmptyForm(true);
+      } else if (isUnderRevieworAccepted) {
+        setShowEmptyForm(false);
+      } else {
+        const isRejected = temp.filter(
+          (data: any) => data.status == "Rejected"
+        );
+        if (isRejected && isRejected.length !== 0) {
+          setShowEmptyForm(true);
+        }
       }
     }
   };
@@ -56,7 +68,7 @@ const Questionnaire = () => {
       if (data.status === "success") {
         setFormData({});
         successToast(data.message);
-        router.reload()
+        router.reload();
       } else if (data.status === "error") {
         errorToast(data.message);
       }
@@ -79,7 +91,7 @@ const Questionnaire = () => {
       title="Questionnaires | Crypfx"
       description="This is Questionnaires page"
     >
-       <Head>
+      <Head>
         <title>Questionnaires | Crypfx</title>
       </Head>
       {type === "Customer" ? (
@@ -93,7 +105,7 @@ const Questionnaire = () => {
                   handleSubmit={handleSubmit}
                   handleCancel={handleCancel}
                   type="Customer"
-                  disableAction = {false}
+                  disableAction={false}
                 />
               )}
               {Questionnaires.map((data: any) => {
