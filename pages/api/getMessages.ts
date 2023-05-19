@@ -9,7 +9,6 @@ export default async function handler(
     const [canAccess, userid, type] = isAuthenticated(req, res) as Array<any>;
     const body = req.body;
     if (canAccess && (type == "Admin" || userid === body.convid)) {
-      console.log(body.convid);
       const db = await getDB();
       const query =
         "SELECT * from messages WHERE convid = ? order by inserton asc";
@@ -21,10 +20,15 @@ export default async function handler(
               status: "error",
               message: "Something went wrong",
             });
+          } else if (Array.isArray(results) && results.length > 0) {
+            res.status(200).json({
+              status: "success",
+              messages: results,
+            });
           } else {
             res.status(200).json({
               status: "success",
-              messages: results
+              messages: [],
             });
           }
           db.end();

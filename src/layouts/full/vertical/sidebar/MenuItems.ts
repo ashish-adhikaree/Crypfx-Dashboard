@@ -20,6 +20,7 @@ import {
   IconQuestionMark,
   IconCurrencyDollar,
   IconUser,
+  IconSettings,
 } from "@tabler/icons-react";
 
 export const CustomerMenuitems: MenuitemsType[] = [
@@ -62,6 +63,12 @@ export const AdminMenuitems: MenuitemsType[] = [
     title: "Customers",
     icon: IconUser,
     href: "/customers",
+  },
+  {
+    id: uniqueId(),
+    title: "Setup",
+    icon: IconSettings,
+    href: "/setup",
   },
   {
     id: uniqueId(),

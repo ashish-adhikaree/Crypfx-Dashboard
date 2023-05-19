@@ -9,7 +9,6 @@ const columns = [
   "USER ID",
   "FIRST NAME",
   "LAST NAME",
-  "USERNAME",
   "EMAIL",
   "STATUS",
   "MEMBER SINCE",

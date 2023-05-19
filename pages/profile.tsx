@@ -309,29 +309,6 @@ const AccountTab = () => {
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    {/* 3 */}
-                    <CustomFormLabel
-                      sx={{
-                        mt: 0,
-                      }}
-                      htmlFor="text-location"
-                    >
-                      Username
-                    </CustomFormLabel>
-                    <CustomTextField
-                      id="text-username"
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setUserDetails({
-                          ...userDetails,
-                          ["username"]: e.target.value,
-                        });
-                      }}
-                      value={userDetails.username ? userDetails.username : ""}
-                      variant="outlined"
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
                     {/* 5 */}
                     <CustomFormLabel
                       sx={{

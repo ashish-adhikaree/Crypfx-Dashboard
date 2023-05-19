@@ -169,7 +169,7 @@ const AuthLogin = ({ subtitle }: loginType) => {
       if (data.status === "success") {
         successToast(data.message);
         await router.push("/");
-        router.reload()
+        router.reload();
       } else if (data.status === "error") {
         errorToast(data.message);
       }
@@ -181,7 +181,7 @@ const AuthLogin = ({ subtitle }: loginType) => {
     try {
       const { data } = await axios.post("/api/auth/signup", formData);
       if (data.status === "success") {
-        setFormData({})
+        setFormData({});
         successToast(data.message);
       } else if (data.status === "error") {
         errorToast(data.message);
@@ -379,17 +379,6 @@ const AuthLogin = ({ subtitle }: loginType) => {
                 handleFormFieldChange={handleFormFieldChange}
                 icon={<PersonOutlinedIcon />}
               />
-            </>
-          )}
-          {step === 2 && (
-            <>
-              <CustomInputField
-                label="Username"
-                placeholder="yourprefferedusername"
-                name="username"
-                handleFormFieldChange={handleFormFieldChange}
-                icon={<PersonOutlinedIcon />}
-              />
               <CustomInputField
                 label="Email Address"
                 placeholder="ialirezamp@gmail.com"
@@ -398,10 +387,6 @@ const AuthLogin = ({ subtitle }: loginType) => {
                 isEmailValid={isEmailValid}
                 icon={<EmailOutlined />}
               />
-            </>
-          )}
-          {step == 3 && (
-            <>
               <CustomInputField
                 label="Password"
                 placeholder="* * * * * * *"
@@ -427,62 +412,31 @@ const AuthLogin = ({ subtitle }: loginType) => {
             </>
           )}
           <Box>
-            {step === 3 ? (
-              <Button
-                color="primary"
-                variant="contained"
-                size="large"
-                fullWidth
-                onClick={() => {
-                  handleSignup(formData);
-                }}
-                type="submit"
-                disabled={
-                  !formData.firstname ||
-                  !formData.lastname ||
-                  !formData.username ||
-                  !formData.email ||
-                  !formData.password ||
-                  !formData.confirmpassword ||
-                  formData.password.length < 6 ||
-                  formData.password !== formData.confirmpassword ||
-                  !formData.agreetopolicy
-                }
-              >
-                Sign Up
-              </Button>
-            ) : (
-              <Button
-                color="primary"
-                onClick={() => {
-                  setStep(step + 1);
-                }}
-                variant="contained"
-                size="large"
-                fullWidth
-                type="submit"
-                disabled={
-                  step === 1
-                    ? !formData.firstname ||
-                      formData.firstname.length == "" ||
-                      !formData.lastname ||
-                      formData.lastname.length == ""
-                    : step === 2
-                    ? !formData.username ||
-                      formData.username.length == "" ||
-                      !formData.email ||
-                      formData.email.length == "" ||
-                      !isEmailValid
-                    : !formData.password ||
-                      formData.password.length < 6 ||
-                      !formData.confirmpassword ||
-                      formData.passowrd !== formData.confirmpassword ||
-                      !formData.agreetopolicy
-                }
-              >
-                Continue
-              </Button>
-            )}
+            <Button
+              color="primary"
+              variant="contained"
+              size="large"
+              fullWidth
+              onClick={() => {
+                handleSignup(formData);
+              }}
+              type="submit"
+              disabled={
+                !formData.firstname ||
+                formData.firstname.length == "" ||
+                !formData.lastname ||
+                formData.lastname.length == "" ||
+                !formData.email ||
+                formData.email.length == "" ||
+                !formData.password ||
+                formData.password.length < 6 ||
+                !formData.confirmpassword ||
+                formData.passowrd !== formData.confirmpassword ||
+                !formData.agreetopolicy
+              }
+            >
+              Sign Up
+            </Button>
           </Box>
         </TabPanel>
       </Box>

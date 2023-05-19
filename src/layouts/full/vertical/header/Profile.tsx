@@ -15,7 +15,7 @@ import { IconMail } from "@tabler/icons-react";
 import { Stack } from "@mui/system";
 import { AuthContext } from "../../../../../context";
 import DefaultUserImage from "../../../../../public/images/profile/defaultuser.png";
-
+import {Profile as SidebarProfile} from  "../sidebar/SidebarProfile/Profile"
 const Profile = () => {
   const [anchorEl2, setAnchorEl2] = useState(null);
   const { image, fullname } = useContext(AuthContext);
@@ -56,6 +56,23 @@ const Profile = () => {
           />
         )}
       </IconButton>
+      <Menu
+        id="msgs-menu"
+        anchorEl={anchorEl2}
+        keepMounted
+        open={Boolean(anchorEl2)}
+        onClose={handleClose2}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        sx={{
+          "& .MuiMenu-paper": {
+            width: "360px",
+            p: 2,
+          },
+        }}
+      >
+        <SidebarProfile/>
+      </Menu>
       {/* ------------------------------------------- */}
       {/* Message Dropdown */}
       {/* ------------------------------------------- */}

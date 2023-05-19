@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getDB } from "./db";
 import { isAuthenticated } from "./isAuthenticated";
 
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -29,8 +28,12 @@ export default async function handler(
         body.tradingjourney,
         body.currentaccountsize,
         body.whyneedus,
-        "Under Review",
-        "Form Submitted Successfully. It is pending review from the admin"
+        body.account === "$10,000 Funded" || body.account === "$25,000 Funded"
+          ? "Accepted"
+          : "Under Review",
+        body.account === "$10,000 Funded" || body.account === "$25,000 Funded"
+          ? "Your questionnaire has been accepted."
+          : "Form Submitted Successfully. It is pending review from the admin",
       ];
       if (db) {
         db.execute(query, values, function (err, results, fields) {

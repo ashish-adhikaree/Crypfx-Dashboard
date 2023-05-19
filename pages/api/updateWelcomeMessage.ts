@@ -1,23 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getDB } from "./db";
 import { isAuthenticated } from "./isAuthenticated";
-
-const cryptos = [
-  {
-    code: "USDT",
-    icon: "/public/images/cryptocurrencies/xrp.png",
-  },
-  {
-    code: "USDC",
-    icon: "/public/images/cryptocurrencies/trx.png",
-  },
-  {
-    code: "BTC",
-    icon: "/public/images/cryptocurrencies/bnb.png",
-  },
-  
-];
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -25,30 +8,26 @@ export default async function handler(
   try {
     const [canAccess, userid, type] = isAuthenticated(req, res) as Array<any>;
     if (canAccess && type == "Admin") {
+      const body = req.body;
       const db = await getDB();
-      const query = "SELECT * from withdrawals";
+      const query = "UPDATE website set welcomemessage = ? WHERE id = ?";
+      const values = [body.welcomemessage, 1];
       if (db) {
-        db.execute(query, function (err, results: any, fields) {
+        db.execute(query, values, function (err, results: any, fields) {
           if (err) {
             res.status(200).json({
               status: "error",
               message: "Something went wrong",
             });
-          } else {
-            const response = results.map((row: any) => {
-              return {
-                trader: row.customer,
-                amount: row.amount,
-                cryptocurrency: cryptos[row.cryptocurrency - 1],
-                address: row.address,
-                status: row.status,
-                addedat: new Date(row.inserton).toDateString(),
-              };
-            });
-            console.log(response)
+          } else if (results.affectedRows !== 0) {
             res.status(200).json({
               status: "success",
-              data: response,
+              message: "Welcome message changed successfully",
+            });
+          } else {
+            res.status(200).json({
+              status: "error",
+              message: "Something went wrong",
             });
           }
           db.end();

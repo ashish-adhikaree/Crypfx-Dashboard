@@ -22,7 +22,7 @@ type PROPS = {
   handleSubmit?: () => void;
   handleCancel?: () => void;
   type: string;
-  disableAction?: boolean
+  disableAction?: boolean;
 };
 const QuestionnaireForm: React.FC<PROPS> = ({
   formData,
@@ -30,7 +30,7 @@ const QuestionnaireForm: React.FC<PROPS> = ({
   handleSubmit,
   handleCancel,
   type,
-  disableAction = false
+  disableAction = false,
 }) => {
   const [accountType, setAccountType] = useState("");
   const [isAlertOpen, setAlert] = useState(false);
@@ -242,6 +242,30 @@ const QuestionnaireForm: React.FC<PROPS> = ({
                     onChange={handleAccountTypeChange}
                     value="$80,000 Funded"
                     label="$80,000 Funded"
+                    control={<CustomRadio />}
+                    name="radio-button-demo"
+                  />
+                  <FormControlLabel
+                    checked={
+                      formData.account
+                        ? formData.account === "$25,000 Funded"
+                        : accountType === "$25,000 Funded"
+                    }
+                    onChange={handleAccountTypeChange}
+                    value="$25,000 Funded"
+                    label="$25,000 Funded"
+                    name="radio-button-demo"
+                    control={<CustomRadio />}
+                  />
+                  <FormControlLabel
+                    checked={
+                      formData.account
+                        ? formData.account === "$10,000 Funded"
+                        : accountType === "$10,000 Funded"
+                    }
+                    onChange={handleAccountTypeChange}
+                    value="$10,000 Funded"
+                    label="$10,000 Funded"
                     control={<CustomRadio />}
                     name="radio-button-demo"
                   />

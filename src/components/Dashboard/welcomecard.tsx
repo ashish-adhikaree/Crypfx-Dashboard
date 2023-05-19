@@ -6,12 +6,28 @@ import {
   CardContent,
   Grid,
 } from "@mui/material";
+import axios from "axios";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 const WelcomeCard: React.FC<{ type: string; fullname: string }> = ({
   type,
   fullname,
 }) => {
   const router = useRouter();
+  const [welcomeMessage, setWelcomeMessage] = useState("");
+  const getWelcomeMessage = async () => {
+    const { data } = await axios.get("/api/getWelcomeMessage");
+    if (data.status === "success") {
+      setWelcomeMessage(data.welcomemsg);
+    } else if (data.status === "error") {
+      console.log(data.message);
+    }
+  };
+  useEffect(() => {
+    if (type === "Customer") {
+      getWelcomeMessage();
+    }
+  }, []);
   return (
     <Card
       elevation={0}
@@ -48,8 +64,7 @@ const WelcomeCard: React.FC<{ type: string; fullname: string }> = ({
                 <span style={{ textTransform: "capitalize" }}>{fullname}</span>!
               </Typography>
               <Typography variant="subtitle2" my={2} color="textSecondary">
-                Complete the questionnaires if you are serious about getting our
-                funded account as our accounts are limited.
+                {welcomeMessage}
               </Typography>
               <Button
                 variant="contained"
@@ -63,7 +78,7 @@ const WelcomeCard: React.FC<{ type: string; fullname: string }> = ({
                   router.push("/questionnaires");
                 }}
               >
-                Complete now
+                Complete Questionnaires
               </Button>
             </>
           ) : (

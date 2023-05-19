@@ -3,7 +3,6 @@ import AuthLogin from "../authForms/AuthLogin";
 import Head from "next/head";
 
 const Login = () => {
-
   return (
     <>
       <Head>
@@ -13,7 +12,7 @@ const Login = () => {
         container
         spacing={0}
         justifyContent="center"
-        sx={{ height: "100vh" }}
+        sx={{ height: "100vh", maxHeight: "100vh", overflow: "hidden" }}
       >
         <Grid
           item
@@ -47,6 +46,11 @@ const Login = () => {
           </Box>
         </Grid>
         <Grid
+          sx={{
+            height: "100vh",
+            overflowY: "scroll",
+            paddingBottom: "50px"
+          }}
           item
           xs={12}
           md={6}
@@ -62,7 +66,7 @@ const Login = () => {
             sx={{ width: "100%" }}
             p={4}
           >
-            <AuthLogin subtitle={<></>}/>
+            <AuthLogin subtitle={<></>} />
           </Box>
         </Grid>
       </Grid>

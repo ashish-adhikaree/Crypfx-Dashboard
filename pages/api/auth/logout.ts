@@ -1,4 +1,4 @@
-import { deleteCookie } from "cookies-next";
+import { deleteCookie, setCookie } from "cookies-next";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function Handler(
@@ -6,6 +6,10 @@ export default async function Handler(
   res: NextApiResponse
 ) {
   try {
+    setCookie("token", "", {
+      req,
+      res,
+    });
     deleteCookie("token", { req, res });
     res
       .status(200)

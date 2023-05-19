@@ -20,24 +20,19 @@ import busd from "../../../public/images/cryptocurrencies/busd.png";
 import Image from "next/image";
 const currencies = [
   {
-    value: "XRP - Ripple",
-    label: "XRP - Ripple",
+    value: "USDT",
+    label: "USDT",
     img: xrp,
   },
   {
-    value: "TRX - TRON",
-    label: "TRX - TRON",
+    value: "USDC",
+    label: "USDC",
     img: trx,
   },
   {
-    value: "BNB - Binance Coin",
-    label: "BNB - Binance Coin",
+    value: "BTC",
+    label: "BTC",
     img: bnb,
-  },
-  {
-    value: "BUSD - Binance USD",
-    label: "BUSD - Binance USD",
-    img: busd,
   },
 ];
 
