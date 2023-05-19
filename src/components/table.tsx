@@ -110,7 +110,7 @@ const CustomTable: React.FC<{
                               variant="subtitle2"
                               fontWeight={600}
                             >
-                              {row[key].code} - {row[key].name}
+                              {row[key].code}
                             </Typography>
                           </Box>
                         </Stack>
