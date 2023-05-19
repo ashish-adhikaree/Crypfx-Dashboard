@@ -221,6 +221,35 @@ const QuestionnaireForm: React.FC<PROPS> = ({
                 }}
               >
                 <Box>
+                  <p>No Questionnaires approval needed (Instant Funding)</p>
+                  <FormControlLabel
+                    checked={
+                      formData.account
+                        ? formData.account === "$10,000 Funded"
+                        : accountType === "$10,000 Funded"
+                    }
+                    onChange={handleAccountTypeChange}
+                    value="$10,000 Funded"
+                    label="$10,000 Funded"
+                    control={<CustomRadio />}
+                    name="radio-button-demo"
+                  />
+                  <FormControlLabel
+                    checked={
+                      formData.account
+                        ? formData.account === "$25,000 Funded"
+                        : accountType === "$25,000 Funded"
+                    }
+                    onChange={handleAccountTypeChange}
+                    value="$25,000 Funded"
+                    label="$25,000 Funded"
+                    name="radio-button-demo"
+                    control={<CustomRadio />}
+                  />
+                </Box>
+                <Box>
+                  <p>Admin's Approval is needed</p>
+
                   <FormControlLabel
                     checked={
                       formData.account
@@ -242,30 +271,6 @@ const QuestionnaireForm: React.FC<PROPS> = ({
                     onChange={handleAccountTypeChange}
                     value="$80,000 Funded"
                     label="$80,000 Funded"
-                    control={<CustomRadio />}
-                    name="radio-button-demo"
-                  />
-                  <FormControlLabel
-                    checked={
-                      formData.account
-                        ? formData.account === "$25,000 Funded"
-                        : accountType === "$25,000 Funded"
-                    }
-                    onChange={handleAccountTypeChange}
-                    value="$25,000 Funded"
-                    label="$25,000 Funded"
-                    name="radio-button-demo"
-                    control={<CustomRadio />}
-                  />
-                  <FormControlLabel
-                    checked={
-                      formData.account
-                        ? formData.account === "$10,000 Funded"
-                        : accountType === "$10,000 Funded"
-                    }
-                    onChange={handleAccountTypeChange}
-                    value="$10,000 Funded"
-                    label="$10,000 Funded"
                     control={<CustomRadio />}
                     name="radio-button-demo"
                   />

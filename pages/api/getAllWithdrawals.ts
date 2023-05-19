@@ -45,7 +45,6 @@ export default async function handler(
                 addedat: new Date(row.inserton).toDateString(),
               };
             });
-            console.log(response)
             res.status(200).json({
               status: "success",
               data: response,

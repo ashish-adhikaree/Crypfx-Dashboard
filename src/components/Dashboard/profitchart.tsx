@@ -76,13 +76,13 @@ const ProfitChart = () => {
   const seriescolumnchart = [
     {
       name: "Gain",
-      data: [20, 15, 30, 25, 10, 15],
-      // data: [],
+      // data: [20, 15, 30, 25, 10, 15],
+      data: [],
     },
     {
       name: "Drawdown",
-      data: [10, 12, 5, 9, 11, 13],
-      // data: [],
+      // data: [10, 12, 5, 9, 11, 13],
+      data: [],
     },
   ];
 
