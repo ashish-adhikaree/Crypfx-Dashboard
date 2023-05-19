@@ -31,10 +31,15 @@ export default async function handler(
               status: "error",
               message: "Something went wrong",
             });
-          }  else {
+          } else if (Array.isArray(results) && results.length > 0) {
             res.status(200).json({
               status: "success",
               message: "Questionnaire Status Changed Successfully",
+            });
+          } else {
+            res.status(200).json({
+              status: "error",
+              message: "No Questionnaire is pending review",
             });
           }
           db.end();

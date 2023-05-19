@@ -77,10 +77,12 @@ const ProfitChart = () => {
     {
       name: "Gain",
       data: [20, 15, 30, 25, 10, 15],
+      // data: [],
     },
     {
       name: "Drawdown",
       data: [10, 12, 5, 9, 11, 13],
+      // data: [],
     },
   ];
 
@@ -94,7 +96,7 @@ const ProfitChart = () => {
       dataItem2="-"
       height="100%"
     >
-      <>
+      <div style={{ position: "relative" }}>
         <Chart
           options={optionscolumnchart}
           series={seriescolumnchart}
@@ -102,7 +104,22 @@ const ProfitChart = () => {
           height={280}
           width={"100%"}
         />
-      </>
+        {seriescolumnchart[0].data.length === 0 &&
+          seriescolumnchart[1].data.length === 0 && (
+            <div
+              style={{
+                position: "absolute",
+                top: "65px",
+                right: "50%",
+                transform: "translateX(50%)",
+                fontWeight: "500",
+                color: "gray",
+              }}
+            >
+              No data to show
+            </div>
+          )}
+      </div>
     </DashboardWidgetCard>
   );
 };

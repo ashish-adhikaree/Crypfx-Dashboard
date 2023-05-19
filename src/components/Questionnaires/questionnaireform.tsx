@@ -120,7 +120,7 @@ const QuestionnaireForm: React.FC<PROPS> = ({
         title="Questionnaires"
         footer={
           <>
-            {type === "Customer" || disableAction && (
+            {type === "Customer" && !disableAction && (
               <>
                 <Button
                   variant="contained"

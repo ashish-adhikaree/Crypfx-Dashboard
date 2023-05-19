@@ -27,11 +27,11 @@ const AccountTab = () => {
   const backupUserDetails = useRef<any>();
   const passwordFormRef = useRef<HTMLFormElement>(null);
   const [isAlertOpen, setAlert] = useState(false);
+  const [profile, setProfile] = useState<string>();
 
   const getUserDetails = async () => {
     const { data } = await axios.get("/api/getUserDetails");
     if (data.status === "success") {
-      console.log(data);
       setUserDetails(data.data);
       backupUserDetails.current = data.data;
     } else if (data.status === "error") {
@@ -54,7 +54,7 @@ const AccountTab = () => {
       const newpassword = passwordFormRef.current["text-npwd"].value;
       const confirmpassword = passwordFormRef.current["text-conpwd"].value;
 
-      if (currentpassword.length< 6 || newpassword.length < 6) {
+      if (currentpassword.length < 6 || newpassword.length < 6) {
         errorToast("Password must be atleast 6 characters");
         return;
       }
@@ -67,7 +67,7 @@ const AccountTab = () => {
         currentpassword: currentpassword,
         newpassword: newpassword,
       });
-      
+
       if (data.status === "success") {
         successToast(data.message);
       } else if (data.status === "error") {
@@ -79,6 +79,7 @@ const AccountTab = () => {
   useEffect(() => {
     getUserDetails();
   }, []);
+
   return (
     <PageContainer
       title="Accunt Settings | CrypFX"
@@ -141,7 +142,11 @@ const AccountTab = () => {
               <Box textAlign="center" display="flex" justifyContent="center">
                 <Box>
                   <Avatar
-                    src={"/images/profile/user-1.jpg"}
+                    src={
+                      profile && profile.length !== 0
+                        ? profile
+                        : "/images/profile/user-1.jpg"
+                    }
                     alt={"user1"}
                     sx={{ width: 120, height: 120, margin: "0 auto" }}
                   />
@@ -157,9 +162,24 @@ const AccountTab = () => {
                       component="label"
                     >
                       Upload
-                      <input hidden accept="image/*" multiple type="file" />
+                      <input
+                        hidden
+                        accept="image/*"
+                        type="file"
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                          if (e.target.files) {
+                            setProfile(URL.createObjectURL(e.target.files[0]));
+                          }
+                        }}
+                      />
                     </Button>
-                    <Button variant="outlined" color="error">
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      onClick={() => {
+                        setProfile("");
+                      }}
+                    >
                       Reset
                     </Button>
                   </Stack>

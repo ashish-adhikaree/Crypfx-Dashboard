@@ -89,6 +89,7 @@ const Questionnaire = () => {
                   handleSubmit={handleSubmit}
                   handleCancel={handleCancel}
                   type="Customer"
+                  disableAction = {false}
                 />
               )}
               {Questionnaires.map((data: any) => {

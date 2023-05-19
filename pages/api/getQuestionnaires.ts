@@ -19,10 +19,15 @@ export default async function handler(
               status: "error",
               message: "Something went wrong",
             });
-          } else {
+          } else if (Array.isArray(results) && results.length > 0) {
             res.status(200).json({
               status: "success",
               questionnaires: results,
+            });
+          } else {
+            res.status(200).json({
+              status: "error",
+              message: "No questionnaire submitted yet",
             });
           }
           db.end();
