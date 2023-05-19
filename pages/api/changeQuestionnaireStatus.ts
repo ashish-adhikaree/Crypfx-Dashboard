@@ -26,12 +26,13 @@ export default async function handler(
       const values = [body.status, message, body.userid, "Under Review"];
       if (db) {
         db.execute(query, values, function (err, results: any, fields) {
+          console.log();
           if (err) {
             res.status(200).json({
               status: "error",
               message: "Something went wrong",
             });
-          } else if (Array.isArray(results) && results.length > 0) {
+          } else if (results.affectedRows !== 0) {
             res.status(200).json({
               status: "success",
               message: "Questionnaire Status Changed Successfully",

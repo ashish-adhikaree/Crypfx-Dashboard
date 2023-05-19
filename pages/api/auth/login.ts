@@ -26,33 +26,40 @@ export default async function handler(
             password,
             results[0].password
           );
-
-          if (!isPasswordRight) {
+          if (results[0].status === "InActive") {
             res.status(200).json({
               status: "error",
-              message: "Incorrect Password",
+              message:
+                "Your account is currently suspended. Please contact the admin.",
             });
-            return;
           } else {
-            const token = jwt.sign(
-              { userid: results[0].userid, type: results[0].type },
-              process.env.SECRET_TOKEN as string
-            );
-            setCookie("token", token, {
-              req,
-              res,
-            });
+            if (!isPasswordRight) {
+              res.status(200).json({
+                status: "error",
+                message: "Incorrect Password",
+              });
+              return;
+            } else {
+              const token = jwt.sign(
+                { userid: results[0].userid, type: results[0].type },
+                process.env.SECRET_TOKEN as string
+              );
+              setCookie("token", token, {
+                req,
+                res,
+              });
 
-            res.status(200).json({
-              status: "success",
-              message: "Logged in Successfully",
-            });
+              res.status(200).json({
+                status: "success",
+                message: "Logged in Successfully",
+              });
+            }
           }
-        } else{
+        } else {
           res.status(200).json({
             status: "error",
-            message: "No account is registered under this email"
-          })
+            message: "No account is registered under this email",
+          });
         }
       });
       db.end();

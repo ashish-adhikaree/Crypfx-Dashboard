@@ -20,20 +20,18 @@ const Questionnaire = () => {
     });
     if (data.status === "success") {
       const temp = data.questionnaires;
-      console.log(temp);
+      console.log(temp)
       setQuestionnaires(temp);
       const isUnderRevieworAccepted = temp.filter(
-        (data: any) =>
-          data.status == "Under Review" || data.status == "Accepted"
+        (row: any) => row.status == "Under Review" || row.status == "Accepted"
       );
       if (temp.length === 0) {
         setShowEmptyForm(true);
-      } else if (isUnderRevieworAccepted) {
+      } else if (isUnderRevieworAccepted && isUnderRevieworAccepted.length !== 0) {
         setShowEmptyForm(false);
       } else {
-        const isRejected = temp.filter(
-          (data: any) => data.status == "Rejected"
-        );
+        const isRejected = temp.filter((row: any) => row.status == "Rejected");
+        console.log(isRejected);
         if (isRejected && isRejected.length !== 0) {
           setShowEmptyForm(true);
         }
@@ -108,9 +106,10 @@ const Questionnaire = () => {
                   disableAction={false}
                 />
               )}
-              {Questionnaires.map((data: any) => {
+              {Questionnaires.map((data: any, index: number) => {
                 return (
                   <QuestionnaireForm
+                    key={data.customer + index}
                     formData={data}
                     setFormData={() => {}}
                     type="Customer"

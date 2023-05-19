@@ -42,6 +42,7 @@ const Chat = () => {
       convid: convid,
       byAdmin: type === "Admin" ? 1 : 0,
       message: newMessage,
+      inserton: Date.now()
     });
     setNewMessage("");
     const { data } = await axios.post("/api/sendMessage", {

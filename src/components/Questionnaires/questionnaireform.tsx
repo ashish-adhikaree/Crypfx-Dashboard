@@ -37,7 +37,7 @@ const QuestionnaireForm: React.FC<PROPS> = ({
   const status = formData.status ? formData.status : "Not Submitted";
   const message = formData.message
     ? formData.message
-    : "Fill up the form and submit it";
+    : "Once your request is approved, you will receive the following information: Broker, MT4 Server, MT4 Account Number, Password";
 
   const handleAccountTypeChange = (event: any) => {
     setAccountType(event.target.value);
@@ -147,15 +147,6 @@ const QuestionnaireForm: React.FC<PROPS> = ({
         }
       >
         <>
-          {type === "Customer" && (
-            <Alert severity="warning">
-              Please fill the Questionnaires Below
-              <p>
-                Once your request is approved, you will receive the following
-                information: Broker, MT4 Server, MT4 Account Number, Password
-              </p>
-            </Alert>
-          )}
           <Alert sx={{ marginTop: "10px" }} severity="info">
             Personal Information
           </Alert>
