@@ -204,7 +204,7 @@ const IndividualKYC = () => {
               <img
                 height={200}
                 width={200}
-                alt="hello"
+                alt="kyc"
                 src={`data:image/png;base64,${bufferToBase64(kyc.file)}`}
               />
               <Button

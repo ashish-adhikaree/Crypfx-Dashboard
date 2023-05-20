@@ -11,6 +11,7 @@ import Image from "next/image";
 const KYC = () => {
   const { userid } = useContext(AuthContext);
   const [kyc, setKyc] = useState<any>([]);
+  const [filetoupload, setfiletoupload] = useState<any>();
   const getKYC = async () => {
     const { data } = await axios.post("/api/getKYC", {
       userid: userid,
@@ -20,14 +21,18 @@ const KYC = () => {
     }
   };
 
-  function bufferToBase64(buffer:any) {
+  function bufferToBase64(buffer: any) {
     return Buffer.from(buffer).toString("base64");
   }
-
-  const uploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const kycdata = new FormData();
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      kycdata.append("file", e.target.files[0]);
+      setfiletoupload(e.target.files[0]);
+    }
+  };
+  const uploadFile = async () => {
+    const kycdata = new FormData();
+    if (filetoupload) {
+      kycdata.append("file", filetoupload);
     }
     try {
       const { data } = await axios.post("/api/submitKYC", kycdata, {
@@ -38,7 +43,6 @@ const KYC = () => {
       } else if (data.status === "error") {
         errorToast(data.message);
       }
-      console.log(data);
     } catch {
       errorToast("Something Went Wrong");
     }
@@ -78,42 +82,69 @@ const KYC = () => {
             <Image
               height={200}
               width={200}
-              alt="hello"
+              alt="kyc"
               src={`data:image/png;base64,${bufferToBase64(kyc.file)}`}
             />
           </Box>
-        ) : (
-          <form>
-            <Box
-              sx={{
-                height: "200px",
-                width: "min(100%,300px)",
-                border: "1px solid #aeaeae",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                padding: "10px",
-                textAlign: "center",
-                position: "relative",
-                fontWeight: "700",
-              }}
-            >
-              <IconFileText height={80} width={80} strokeWidth={1} />
-              Click here or Drag and Drop your ID/Passport here. Only jpg/jpeg
-              is accepted
-              <input
-                style={{
-                  opacity: "0",
-                  position: "absolute",
-                  inset: "0",
-                  cursor: "pointer",
-                }}
-                onChange={uploadFile}
-                accept="[image/jpg, image/jpeg]"
-                type="file"
+        ) : filetoupload ? (
+          <>
+            <Box>
+              <Typography variant="h5" sx={{marginBlock:"10px"}}>Selected doc</Typography>
+              <Image
+                height={200}
+                width={200}
+                alt="kyc"
+                src={URL.createObjectURL(filetoupload)}
               />
-              {/* <Button
+            </Box>
+
+            <Box sx={{display:"flex",alignItems:"center", flexWrap:"wrap", gap:"20px"}}>
+              <Button color="primary" onClick={uploadFile}>
+                Upload KYC
+              </Button>
+              <Button
+                color="error"
+                onClick={() => {
+                  setfiletoupload("");
+                }}
+              >
+                Remove Selected
+              </Button>
+            </Box>
+          </>
+        ) : (
+          <>
+            <form>
+              <Box
+                sx={{
+                  height: "200px",
+                  width: "min(100%,300px)",
+                  border: "1px solid #aeaeae",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  padding: "10px",
+                  textAlign: "center",
+                  position: "relative",
+                  fontWeight: "700",
+                }}
+              >
+                <IconFileText height={80} width={80} strokeWidth={1} />
+                Click here or Drag and Drop your ID/Passport here. Only jpg/jpeg
+                is accepted
+                <input
+                  style={{
+                    opacity: "0",
+                    position: "absolute",
+                    inset: "0",
+                    cursor: "pointer",
+                  }}
+                  onChange={handleChange}
+                  accept="[image/jpg, image/jpeg]"
+                  type="file"
+                />
+                {/* <Button
                 onClick={() => {
                   if (inputRef.current) {
                     inputRef.current.click();
@@ -132,8 +163,9 @@ const KYC = () => {
                   type="file"
                 />
               </Button> */}
-            </Box>
-          </form>
+              </Box>
+            </form>
+          </>
         )}
       </Box>
     </>
