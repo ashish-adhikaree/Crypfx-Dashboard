@@ -23,15 +23,22 @@ export default async function handler(
               message: "Something went wrong",
             });
           } else if (Array.isArray(results) && results.length > 0) {
-            const filePath = path.resolve(
-              ".",
-              `public/kyc/${results[0].kyclink}`
-            );
-            const imageBuffer = fs.readFileSync(filePath);
-            res.status(200).json({
-              status: "success",
-              data: { ...results[0], file: imageBuffer },
-            });
+            if (results[0].kyclink && results[0].kyclink.length !== 0) {
+              const filePath = path.resolve(
+                ".",
+                `public/kyc/${results[0].kyclink}`
+              );
+              const imageBuffer = fs.readFileSync(filePath);
+              res.status(200).json({
+                status: "success",
+                data: { ...results[0], file: imageBuffer },
+              });
+            } else {
+              res.status(200).json({
+                status: "success",
+                data: { ...results[0], file: "" },
+              });
+            }
           } else {
             res.status(200).json({
               status: "success",
