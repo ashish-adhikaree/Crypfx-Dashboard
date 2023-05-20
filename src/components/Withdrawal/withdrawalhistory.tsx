@@ -95,7 +95,7 @@ const WithdrawalHistory = () => {
                   variant="subtitle2"
                   fontWeight={400}
                 >
-                  TRX - TRON
+                  BTC
                 </Typography>
               </TableCell>
               <TableCell>

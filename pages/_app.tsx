@@ -87,6 +87,7 @@ export default (props: MyAppProps) => {
     type: string;
     userid: string;
     fullname: string;
+    email: string;
     image: string;
   }>();
 
@@ -101,6 +102,7 @@ export default (props: MyAppProps) => {
         image: data.data.image,
         type: data.data.type,
         userid: data.data.userid,
+        email: data.data.email
       });
     } else {
       setAuthData({
@@ -109,6 +111,7 @@ export default (props: MyAppProps) => {
         image: "",
         type: "",
         userid: "",
+        email: ""
       });
     }
   };
@@ -143,6 +146,7 @@ export default (props: MyAppProps) => {
                 image: "",
                 type: "",
                 userid: "",
+                email :""
               }
         }
       >

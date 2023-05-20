@@ -17,10 +17,10 @@ interface MenuitemsType {
 import {
   IconSmartHome,
   IconMessage2,
-  IconQuestionMark,
   IconCurrencyDollar,
   IconUser,
   IconSettings,
+  IconFileText,
 } from "@tabler/icons-react";
 
 export const CustomerMenuitems: MenuitemsType[] = [
@@ -33,7 +33,7 @@ export const CustomerMenuitems: MenuitemsType[] = [
   {
     id: uniqueId(),
     title: "Application",
-    icon: IconQuestionMark,
+    icon: IconFileText,
     href: "/application",
   },
   {

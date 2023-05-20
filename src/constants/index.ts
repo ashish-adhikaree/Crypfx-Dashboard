@@ -9,18 +9,18 @@ export const CURRENCIES = [
     img: BTCLOGO,
   },
   {
-    value: "USDC",
-    label: "USDC",
+    value: "USDC.ERC20",
+    label: "USDC.ERC20",
     img: USDC,
   },
   {
-    value: "USDTERC20",
-    label: "USDTERC20",
+    value: "USDT.ERC20",
+    label: "USDT.ERC20",
     img: USDTERC20,
   },
   {
-    value: "USDTTRC20",
-    label: "USDTTRC20",
+    value: "USDT.TRC20",
+    label: "USDT.TRC20",
     img: USDTTRC20,
   },
 ];
@@ -30,7 +30,7 @@ interface INDEXSIGNATURE {
 }
 export const WITHDRAWTABLECURRENCIES: INDEXSIGNATURE = {
   BTC: CURRENCIES[0],
-  USDC: CURRENCIES[1],
-  USDTERC20: CURRENCIES[2],
-  USDTTRC20: CURRENCIES[3],
+  "USDC.ERC20": CURRENCIES[1],
+  "USDT.ERC20": CURRENCIES[2],
+  "USDT.TRC20": CURRENCIES[3],
 };

@@ -26,6 +26,39 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { errorToast, successToast } from "../../../customToasts";
+
+const SIGNUPFIELDS = [
+  {
+    label: "First Name",
+    placeholder: "Your first name",
+    name: "firstname",
+    icon: <PersonOutlinedIcon />,
+  },
+  {
+    label: "Last Name",
+    placeholder: "Your last name",
+    name: "lastname",
+    icon: <PersonOutlinedIcon />,
+  },
+  {
+    label: "Email Address",
+    placeholder: "Your email",
+    name: "email",
+    icon: <EmailOutlined />,
+  },
+  {
+    label: "Password",
+    placeholder: "Your password",
+    name: "password",
+    icon: <KeyOutlinedIcon />,
+  },
+  {
+    label: "Confirm Password",
+    placeholder: "Reenter your password",
+    name: "confirmpassword",
+    icon: <KeyOutlinedIcon />,
+  },
+];
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -63,6 +96,7 @@ const CustomInputField: React.FC<{
   placeholder: string;
   handleFormFieldChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isEmailValid?: boolean;
+  onKeyUp?: (e: React.KeyboardEvent) => void;
 }> = ({
   label,
   name,
@@ -70,6 +104,7 @@ const CustomInputField: React.FC<{
   placeholder,
   handleFormFieldChange,
   isEmailValid,
+  onKeyUp,
 }) => {
   return (
     <div
@@ -116,6 +151,7 @@ const CustomInputField: React.FC<{
           </p>
           <input
             name={name}
+            onKeyUp={onKeyUp}
             placeholder={placeholder}
             style={{
               border: "none",
@@ -231,7 +267,7 @@ const AuthLogin = ({ subtitle }: loginType) => {
           color="#929292"
           mb={1}
         >
-          {type === 0 && "Welcome Back, Please enter your details."}
+          {type === 0 && "Please enter your details."}
           {type === 1 && "Register an account here."}
         </Typography>
       </Box>
@@ -284,8 +320,18 @@ const AuthLogin = ({ subtitle }: loginType) => {
             {step === 1 && (
               <CustomInputField
                 label="Email Address"
-                placeholder="ialirezamp@gmail.com"
+                placeholder="Your email "
                 name="email"
+                onKeyUp={(e: any) => {
+                  if (
+                    formData.email &&
+                    formData.email !== "" &&
+                    isEmailValid &&
+                    (e.key === "Enter" || e.keyCode === 13)
+                  ) {
+                    setStep(step + 1);
+                  }
+                }}
                 handleFormFieldChange={handleFormFieldChange}
                 isEmailValid={isEmailValid}
                 icon={<EmailOutlined />}
@@ -295,7 +341,7 @@ const AuthLogin = ({ subtitle }: loginType) => {
               <>
                 <CustomInputField
                   label="Password"
-                  placeholder="* * * * * * *"
+                  placeholder="Your password"
                   name="password"
                   handleFormFieldChange={handleFormFieldChange}
                   icon={<KeyOutlinedIcon />}
@@ -365,42 +411,17 @@ const AuthLogin = ({ subtitle }: loginType) => {
           {/* Sign up  */}
           {step === 1 && (
             <>
-              <CustomInputField
-                label="First Name"
-                placeholder="Mathew"
-                name="firstname"
-                handleFormFieldChange={handleFormFieldChange}
-                icon={<PersonOutlinedIcon />}
-              />
-              <CustomInputField
-                label="Last Name"
-                placeholder="Watson"
-                name="lastname"
-                handleFormFieldChange={handleFormFieldChange}
-                icon={<PersonOutlinedIcon />}
-              />
-              <CustomInputField
-                label="Email Address"
-                placeholder="ialirezamp@gmail.com"
-                name="email"
-                handleFormFieldChange={handleFormFieldChange}
-                isEmailValid={isEmailValid}
-                icon={<EmailOutlined />}
-              />
-              <CustomInputField
-                label="Password"
-                placeholder="* * * * * * *"
-                name="password"
-                handleFormFieldChange={handleFormFieldChange}
-                icon={<KeyOutlinedIcon />}
-              />{" "}
-              <CustomInputField
-                label="Confirm Password"
-                placeholder="* * * * * * *"
-                name="confirmpassword"
-                handleFormFieldChange={handleFormFieldChange}
-                icon={<KeyOutlinedIcon />}
-              />
+              {SIGNUPFIELDS.map((field) => (
+                <CustomInputField
+                  key={field.name}
+                  label={field.label}
+                  placeholder={field.placeholder}
+                  name={field.name}
+                  isEmailValid={field.name === "email" && isEmailValid}
+                  handleFormFieldChange={handleFormFieldChange}
+                  icon={field.icon}
+                />
+              ))}
               <FormGroup sx={{ marginBottom: "20px" }}>
                 <FormControlLabel
                   control={<CustomCheckbox />}

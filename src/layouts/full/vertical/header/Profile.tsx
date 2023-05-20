@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import Link from "next/link";
 import {
   Box,
@@ -8,17 +8,36 @@ import {
   Divider,
   Button,
   IconButton,
+  Modal,
+  Tooltip,
 } from "@mui/material";
-import * as dropdownData from "./data";
 
-import { IconMail } from "@tabler/icons-react";
-import { Stack } from "@mui/system";
+import { IconUser } from "@tabler/icons-react";
 import { AuthContext } from "../../../../../context";
 import DefaultUserImage from "../../../../../public/images/profile/defaultuser.png";
-import {Profile as SidebarProfile} from  "../sidebar/SidebarProfile/Profile"
+import { useRouter } from "next/router";
+import axios from "axios";
+import { errorToast, successToast } from "../../../../../customToasts";
+
 const Profile = () => {
   const [anchorEl2, setAnchorEl2] = useState(null);
-  const { image, fullname } = useContext(AuthContext);
+  const { image, fullname, type, email } = useContext(AuthContext);
+  const [isAlertOpen, setAlert] = useState(false);
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      const { data } = await axios.get("/api/auth/logout");
+      if (data.status == "success") {
+        successToast(data.message);
+        router.push("/auth/login");
+      } else if (data.status == "error") {
+        errorToast(data.message);
+      }
+    } catch {
+      errorToast("Something went wrong. Please refresh the page");
+    }
+  };
 
   const handleClick2 = (event: any) => {
     setAnchorEl2(event.currentTarget);
@@ -71,7 +90,133 @@ const Profile = () => {
           },
         }}
       >
-        <SidebarProfile/>
+        <Box
+          display={"flex"}
+          alignItems="center"
+          gap={2}
+          sx={{
+            m: 0,
+            p: 2,
+            color: "#3a3a3a",
+            cursor: "pointer",
+          }}
+        >
+          <Modal
+            open={isAlertOpen}
+            onClose={() => {
+              setAlert(false);
+            }}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Box sx={{ background: "#ffffff", padding: "30px" }}>
+              <Typography
+                color="error"
+                id="modal-modal-title"
+                variant="h6"
+                component="h2"
+              >
+                Are you sure you want to logout?
+              </Typography>
+              <Box sx={{ marginTop: "30px" }}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  sx={{
+                    mr: 1,
+                  }}
+                  onClick={() => {
+                    setAlert(false);
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => {
+                    handleLogout();
+                    setAlert(false);
+                  }}
+                >
+                  Confirm
+                </Button>
+              </Box>
+            </Box>
+          </Modal>
+
+          {image ? (
+            <Avatar alt={fullname} src={image} />
+          ) : (
+            <Avatar
+              sx={{
+                height: "30px",
+                width: "30px",
+                backgroundColor: "rgba(58, 58, 58, .15)",
+              }}
+              alt={fullname}
+              src={DefaultUserImage.src}
+            />
+          )}
+          <Box
+            onClick={() => {
+              router.push("/profile");
+            }}
+          >
+            <Typography variant="h6" style={{ textTransform: "capitalize" }}>
+              {fullname.split(" ")[0]}
+            </Typography>
+            <Typography variant="caption">{email}</Typography>
+          </Box>
+        </Box>
+        <Divider />
+        <Box
+          sx={{
+            ml: "auto",
+          }}
+        >
+            <Link
+              title = "Profile"
+              href="/profile"
+              style={{
+                color: "#3a3a3a",
+                display: "flex",
+                alignItems: "center",
+                gap: "20px",
+                padding: 16,
+              }}
+            >
+              <IconUser />
+              <Box>
+                <Typography fontWeight={800}>Profile</Typography>
+                <Typography>Account settings and more</Typography>
+              </Box>
+            </Link>
+        </Box>
+        <Box sx={{ ml: "auto" }}>
+          <Tooltip title="Logout" placement="bottom">
+            <Button
+              sx={{
+                background: "#3a3a3a",
+                color: "#ffffff",
+                width: "100%",
+                paddingBlock: "10px",
+                marginTop: "10px",
+              }}
+              onClick={() => {
+                setAlert(true);
+              }}
+              aria-label="logout"
+            >
+              <Typography>Logout</Typography>
+            </Button>
+          </Tooltip>
+        </Box>
       </Menu>
       {/* ------------------------------------------- */}
       {/* Message Dropdown */}
