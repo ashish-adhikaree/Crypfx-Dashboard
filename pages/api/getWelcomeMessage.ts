@@ -22,14 +22,14 @@ export default async function handler(
             status: "success",
             welcomemsg:
               results[0].welcomemessage === ""
-                ? "Complete the questionnaires if you are serious about getting our funded account as our accounts are limited."
+                ? "Complete the application if you are serious about getting our funded account as our accounts are limited."
                 : results[0].welcomemessage,
           });
         } else {
           res.status(200).json({
             status: "success",
             welcomemsg:
-              "Complete the questionnaires if you are serious about getting our funded account as our accounts are limited.",
+              "Complete the application if you are serious about getting our funded account as our accounts are limited.",
           });
         }
         db.end();

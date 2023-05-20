@@ -19,6 +19,7 @@ import {
 import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { WITHDRAWTABLECURRENCIES } from "../constants";
 
 const CustomTable: React.FC<{
   title: string;
@@ -100,17 +101,31 @@ const CustomTable: React.FC<{
                     title === "All Withdrawals" &&
                     key === "cryptocurrency"
                   ) {
+                    const currency = WITHDRAWTABLECURRENCIES[row[key]];
                     return (
                       <TableCell key={key} sx={{ pl: 2 }}>
                         <Stack direction="row" spacing={2}>
-                          <Box>
-                            {/* <Image src={row[key].icon} height={20} width={20} alt={row[key].name}/> */}
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "10px",
+                              flexWrap: "wrap",
+                            }}
+                          >
+                            <Image
+                              src={currency.img}
+                              height={20}
+                              width={20}
+                              style={{objectFit:"contain"}}
+                              alt={row[key].name}
+                            />
                             <Typography
                               sx={{ textTransform: "capitalize" }}
                               variant="subtitle2"
                               fontWeight={600}
                             >
-                              {row[key].code}
+                              {currency.label}
                             </Typography>
                           </Box>
                         </Stack>
@@ -134,7 +149,13 @@ const CustomTable: React.FC<{
                 {title === "All Customers" && (
                   <TableCell sx={{ pl: 2 }}>
                     <Stack direction="row" spacing={2}>
-                      <Box sx={{display:"flex", alignItems:"center", gap:"10px"}}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                        }}
+                      >
                         <Button
                           variant="outlined"
                           onClick={() => {
@@ -147,7 +168,7 @@ const CustomTable: React.FC<{
                         </Button>
                         <Button
                           variant="outlined"
-                          color ="success"
+                          color="success"
                           onClick={() => {
                             router.push(
                               `/chat/${row.userid}?name=${row.firstname} ${row.lastname}`

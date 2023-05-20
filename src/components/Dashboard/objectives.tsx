@@ -10,7 +10,7 @@ const Objectives = () => {
   const stats = [
     {
       title: "Gain Target",
-      percent: "+7%",
+      percent: "-",
       color: "#3a3a3a",
       lightcolor: "rgba(58, 58, 58, .15)",
       icon: <TrendingUpRoundedIcon width={18} />,

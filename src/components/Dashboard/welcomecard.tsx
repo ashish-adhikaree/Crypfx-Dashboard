@@ -55,6 +55,7 @@ const WelcomeCard: React.FC<{ type: string; fullname: string }> = ({
           style={{
             textAlign: "center",
             margin: 0,
+            paddingBlock: '30px'
           }}
         >
           {type == "Customer" ? (

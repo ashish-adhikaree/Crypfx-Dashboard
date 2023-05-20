@@ -10,7 +10,6 @@ export default class MyDocument extends Document {
         <Head>
           {/* PWA primary color */}
           <meta name="theme-color" />
-          <title>Crypfx</title>
           <link rel="shortcut icon" href="/favicon.png" />
           <link
             href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"

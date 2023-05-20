@@ -16,6 +16,55 @@ import CustomRadio from "../forms/theme-elements/CustomRadio";
 import CustomFormLabel from "../forms/theme-elements/CustomFormLabel";
 import ParentCard from "../shared/ParentCard";
 
+const Questions = [
+  {
+    key: "tradingperiod",
+    label: "How long have you been trading forex?",
+  },
+  {
+    key: "tradedwithfunded",
+    label:
+      "Have you traded a funded account before? If so, which prop firm did you trade with?",
+  },
+  {
+    key: "incomesourcebesidetrading",
+    label:
+      "Beside trading, do you have other businesses that generate an income for you?",
+  },
+  {
+    key: "tradertype",
+    label: "What type of trader are you? (Scalper etc)",
+  },
+  {
+    key: "averagemonthlygain",
+    label: "What's your average monthly gain in the past 6 months?",
+  },
+  {
+    key: "riskpercentage",
+    label: "How much do you risk per trade?",
+  },
+  {
+    key: "currencypair",
+    label: "What currency pair do you trade the most?",
+  },
+  {
+    key: "currentbroker",
+    label: "What is the broker that you are currently trading with?",
+  },
+  {
+    key: "tradingjourney",
+    label: "Can you describe your trading journey?",
+  },
+  {
+    key: "currentaccountsize",
+    label: "What's the current account size that you are trading with?",
+  },
+  {
+    key: "whyneedus",
+    label: "Why do you need our funding program?",
+  },
+];
+
 type PROPS = {
   formData: any;
   setFormData: React.Dispatch<any>;
@@ -280,197 +329,33 @@ const ApplicationForm: React.FC<PROPS> = ({
           </Grid>
           <Alert severity="info">Questions</Alert>
           <Grid container spacing={3} mb={3} mt={1}>
-            <Grid item lg={6} md={12} sm={12} xs={12}>
-              <CustomFormLabel
-                sx={{
-                  mt: 0,
-                }}
-                htmlFor="tradehistory-text"
-              >
-                How long have you been trading forex?
-              </CustomFormLabel>
-              <CustomTextField
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setFormData({ ...formData, tradingperiod: e.target.value });
-                }}
-                value={formData.tradingperiod ? formData.tradingperiod : ""}
-                id="tradehistory-text"
-                variant="outlined"
-                fullWidth
-                multiline
-              />
-            </Grid>
-            <Grid item lg={6} md={12} sm={12} xs={12}>
-              <CustomFormLabel
-                sx={{
-                  mt: 0,
-                }}
-                htmlFor="tradertype-text"
-              >
-                What type of trader are you? (Scalper etc)
-              </CustomFormLabel>
-              <CustomTextField
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setFormData({ ...formData, tradertype: e.target.value });
-                }}
-                value={formData.tradertype ? formData.tradertype : ""}
-                id="tradertype-text"
-                variant="outlined"
-                fullWidth
-                multiline
-              />
-            </Grid>
-            <Grid item lg={6} md={12} sm={12} xs={12}>
-              <CustomFormLabel
-                sx={{
-                  mt: 0,
-                }}
-                htmlFor="avgmonthlygain-text"
-              >
-                What's your average monthly gain in the past 6 months?
-                (percentage)
-              </CustomFormLabel>
-              <CustomTextField
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setFormData({
-                    ...formData,
-                    averagemonthlygain: e.target.value,
-                  });
-                }}
-                value={
-                  formData.averagemonthlygain ? formData.averagemonthlygain : ""
-                }
-                id="avgmonthlygain-text"
-                variant="outlined"
-                fullWidth
-                multiline
-              />
-            </Grid>
-            <Grid item lg={6} md={12} sm={12} xs={12}>
-              <CustomFormLabel
-                sx={{
-                  mt: 0,
-                }}
-                htmlFor="risk-text"
-              >
-                How much do you risk per trade? (In percentage)
-              </CustomFormLabel>
-              <CustomTextField
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setFormData({ ...formData, riskpercentage: e.target.value });
-                }}
-                value={formData.riskpercentage ? formData.riskpercentage : ""}
-                id="risk-text"
-                variant="outlined"
-                fullWidth
-                multiline
-              />
-            </Grid>
-            <Grid item lg={6} md={12} sm={12} xs={12}>
-              <CustomFormLabel
-                sx={{
-                  mt: 0,
-                }}
-                htmlFor="currencypair-text"
-              >
-                What currency pair do you trade the most?
-              </CustomFormLabel>
-              <CustomTextField
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setFormData({ ...formData, currencypair: e.target.value });
-                }}
-                value={formData.currencypair ? formData.currencypair : ""}
-                id="currencypair-text"
-                variant="outlined"
-                fullWidth
-                multiline
-              />
-            </Grid>
-            <Grid item lg={6} md={12} sm={12} xs={12}>
-              <CustomFormLabel
-                sx={{
-                  mt: 0,
-                }}
-                htmlFor="currentbroker-text"
-              >
-                What is the broker that you are currently trading with?
-              </CustomFormLabel>
-              <CustomTextField
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setFormData({ ...formData, forexbroker: e.target.value });
-                }}
-                value={formData.forexbroker ? formData.forexbroker : ""}
-                id="currentbroker-text"
-                variant="outlined"
-                fullWidth
-                multiline
-              />
-            </Grid>
-            <Grid item lg={6} md={12} sm={12} xs={12}>
-              <CustomFormLabel
-                sx={{
-                  mt: 0,
-                }}
-                htmlFor="tradingjourney-text"
-              >
-                Can you describe your trading journey?
-              </CustomFormLabel>
-              <CustomTextField
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setFormData({ ...formData, tradingjourney: e.target.value });
-                }}
-                value={formData.tradingjourney ? formData.tradingjourney : ""}
-                id="tradingjourney-text"
-                variant="outlined"
-                fullWidth
-                multiline
-              />
-            </Grid>
-            <Grid item lg={6} md={12} sm={12} xs={12}>
-              <CustomFormLabel
-                sx={{
-                  mt: 0,
-                }}
-                htmlFor="accountsize-text"
-              >
-                What's the current account size that you are trading with?
-              </CustomFormLabel>
-              <CustomTextField
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setFormData({
-                    ...formData,
-                    currentaccountsize: e.target.value,
-                  });
-                }}
-                value={
-                  formData.currentaccountsize ? formData.currentaccountsize : ""
-                }
-                id="tradingjourney-text"
-                variant="outlined"
-                fullWidth
-                multiline
-              />
-            </Grid>
-            <Grid item lg={12} md={12} sm={12} xs={12}>
-              <CustomFormLabel
-                sx={{
-                  mt: 0,
-                }}
-                htmlFor="fundingpgrmneed-text"
-              >
-                Why do you need our funding program?
-              </CustomFormLabel>
-              <CustomTextField
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setFormData({ ...formData, whyneedus: e.target.value });
-                }}
-                value={formData.whyneedus ? formData.whyneedus : ""}
-                id="fundingpgrmneed-text"
-                variant="outlined"
-                fullWidth
-                multiline
-              />
-            </Grid>
+            {Questions.map((question) => {
+              return (
+                <Grid key={question.key} item lg={6} md={12} sm={12} xs={12}>
+                  <CustomFormLabel
+                    sx={{
+                      mt: 0,
+                    }}
+                    htmlFor={question.key}
+                  >
+                    {question.label}
+                  </CustomFormLabel>
+                  <CustomTextField
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setFormData({
+                        ...formData,
+                        [question.key]: e.target.value,
+                      });
+                    }}
+                    value={formData[question.key] ? formData[question.key] : ""}
+                    id={question.key}
+                    variant="outlined"
+                    fullWidth
+                    multiline
+                  />
+                </Grid>
+              );
+            })}
           </Grid>
         </>
       </ParentCard>

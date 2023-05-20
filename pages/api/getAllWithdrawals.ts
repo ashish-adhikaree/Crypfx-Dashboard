@@ -2,21 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getDB } from "./db";
 import { isAuthenticated } from "./isAuthenticated";
 
-const cryptos = [
-  {
-    code: "USDT",
-    icon: "/public/images/cryptocurrencies/xrp.png",
-  },
-  {
-    code: "USDC",
-    icon: "/public/images/cryptocurrencies/trx.png",
-  },
-  {
-    code: "BTC",
-    icon: "/public/images/cryptocurrencies/bnb.png",
-  },
-  
-];
 
 export default async function handler(
   req: NextApiRequest,
@@ -39,7 +24,7 @@ export default async function handler(
               return {
                 trader: row.customer,
                 amount: row.amount,
-                cryptocurrency: cryptos[row.cryptocurrency - 1],
+                cryptocurrency: row.cryptocurrency,
                 address: row.address,
                 status: row.status,
                 addedat: new Date(row.inserton).toDateString(),

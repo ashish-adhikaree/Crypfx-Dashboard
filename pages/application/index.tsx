@@ -56,7 +56,7 @@ const Application = () => {
       formData.averagemonthlygain &&
       formData.riskpercentage &&
       formData.currencypair &&
-      formData.forexbroker &&
+      formData.currentbroker &&
       formData.tradingjourney &&
       formData.currentaccountsize &&
       formData.whyneedus

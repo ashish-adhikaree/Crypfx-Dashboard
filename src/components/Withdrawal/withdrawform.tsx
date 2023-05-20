@@ -13,28 +13,8 @@ import CustomSelect from "../forms/theme-elements/CustomSelect";
 import CustomRadio from "../forms//theme-elements/CustomRadio";
 import CustomFormLabel from "../forms//theme-elements/CustomFormLabel";
 import ParentCard from "../shared/ParentCard";
-import xrp from "../../../public/images/cryptocurrencies/xrp.png";
-import trx from "../../../public/images/cryptocurrencies/trx.png";
-import bnb from "../../../public/images/cryptocurrencies/bnb.png";
-import busd from "../../../public/images/cryptocurrencies/busd.png";
 import Image from "next/image";
-const currencies = [
-  {
-    value: "USDT",
-    label: "USDT",
-    img: xrp,
-  },
-  {
-    value: "USDC",
-    label: "USDC",
-    img: trx,
-  },
-  {
-    value: "BTC",
-    label: "BTC",
-    img: bnb,
-  },
-];
+import { CURRENCIES } from "../../constants";
 
 const WithdrawForm = () => {
   const [currency, setCurrency] = React.useState("");
@@ -94,10 +74,20 @@ const WithdrawForm = () => {
                   fullWidth
                   variant="outlined"
                 >
-                  {currencies.map((option) => (
+                  {CURRENCIES.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
-                      <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-                        <Image height = {20} src = {option.img} alt= {option.label}/>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                        }}
+                      >
+                        <Image
+                          height={20}
+                          src={option.img}
+                          alt={option.label}
+                        />
                         <span>{option.label}</span>
                       </div>
                     </MenuItem>
