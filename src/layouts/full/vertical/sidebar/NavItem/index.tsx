@@ -16,6 +16,8 @@ import { useSelector } from "../../../../../store/Store";
 import { useTranslation } from "react-i18next";
 import { AppState } from "../../../../../store/Store";
 import { AuthContext } from "../../../../../../context";
+import Image from "next/image";
+import KYCIcon from "../../../../../../public/images/svgs/kycicon.png";
 
 type NavGroup = {
   [x: string]: any;
@@ -124,6 +126,7 @@ const NavItem = ({ item, level, pathDirect, hideMenu, onClick }: ItemType) => {
           >
             {itemIcon}
           </ListItemIcon>
+
           <ListItemText>
             {hideMenu ? "" : <>{t(`${item?.title}`)}</>}
             <br />

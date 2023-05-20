@@ -322,7 +322,7 @@ const AuthLogin = ({ subtitle }: loginType) => {
                 label="Email Address"
                 placeholder="Your email "
                 name="email"
-                onKeyUp={(e: any) => {
+                onKeyUp={(e: React.KeyboardEvent) => {
                   if (
                     formData.email &&
                     formData.email !== "" &&
@@ -343,6 +343,18 @@ const AuthLogin = ({ subtitle }: loginType) => {
                   label="Password"
                   placeholder="Your password"
                   name="password"
+                  onKeyUp={(e: React.KeyboardEvent) => {
+                    if (
+                      formData.email &&
+                      formData.email !== "" &&
+                      formData.password &&
+                      formData.password > 5 &&
+                      isEmailValid &&
+                      (e.key === "Enter" || e.keyCode === 13)
+                    ) {
+                      handleLogin(formData)
+                    }
+                  }}
                   handleFormFieldChange={handleFormFieldChange}
                   icon={<KeyOutlinedIcon />}
                 />

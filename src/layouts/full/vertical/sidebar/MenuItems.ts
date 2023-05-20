@@ -21,6 +21,7 @@ import {
   IconUser,
   IconSettings,
   IconFileText,
+  IconUserExclamation,
 } from "@tabler/icons-react";
 
 export const CustomerMenuitems: MenuitemsType[] = [
@@ -35,6 +36,12 @@ export const CustomerMenuitems: MenuitemsType[] = [
     title: "Application",
     icon: IconFileText,
     href: "/application",
+  },
+  {
+    id: uniqueId(),
+    title: "KYC",
+    icon: IconUserExclamation,
+    href: "/kyc",
   },
   {
     id: uniqueId(),

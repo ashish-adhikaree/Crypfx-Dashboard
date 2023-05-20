@@ -117,7 +117,7 @@ const CustomTable: React.FC<{
                               src={currency.img}
                               height={20}
                               width={20}
-                              style={{objectFit:"contain"}}
+                              style={{ objectFit: "contain" }}
                               alt={row[key].name}
                             />
                             <Typography
@@ -176,6 +176,17 @@ const CustomTable: React.FC<{
                           }}
                         >
                           Chat
+                        </Button>
+                        <Button
+                          variant="outlined"
+                          color="success"
+                          onClick={() => {
+                            router.push(
+                              `/kyc/${row.userid}?name=${row.firstname} ${row.lastname}`
+                            );
+                          }}
+                        >
+                          View KYC
                         </Button>
                       </Box>
                     </Stack>

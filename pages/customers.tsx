@@ -11,6 +11,7 @@ const columns = [
   "LAST NAME",
   "EMAIL",
   "STATUS",
+  "KYC STATUS",
   "MEMBER SINCE",
 ];
 
