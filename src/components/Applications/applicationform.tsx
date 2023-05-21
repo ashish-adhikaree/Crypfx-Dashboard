@@ -335,8 +335,8 @@ const ApplicationForm: React.FC<PROPS> = ({
                         : accountType === "$80,000 Account"
                     }
                     onChange={handleAccountTypeChange}
-                    value="$80,000 Funded"
-                    label="$80,000 Funded"
+                    value="$80,000 Account"
+                    label="$80,000 Account"
                     control={<CustomRadio />}
                     name="radio-button-demo"
                   />
