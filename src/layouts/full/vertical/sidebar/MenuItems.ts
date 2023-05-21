@@ -45,7 +45,7 @@ export const CustomerMenuitems: MenuitemsType[] = [
   },
   {
     id: uniqueId(),
-    title: "Chat",
+    title: "Chat with Admin",
     icon: IconMessage2,
     href: "/chat",
   },
@@ -70,6 +70,12 @@ export const AdminMenuitems: MenuitemsType[] = [
     title: "Customers",
     icon: IconUser,
     href: "/customers",
+  },
+  {
+    id: uniqueId(),
+    title: "Chat",
+    icon: IconMessage2,
+    href: "/chat",
   },
   {
     id: uniqueId(),

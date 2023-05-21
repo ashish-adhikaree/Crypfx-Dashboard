@@ -62,7 +62,7 @@ const CustomTable: React.FC<{
                   </TableCell>
                 );
               })}
-              {title === "All Customers" && (
+              {(title === "All Customers" || title === "Chats") && (
                 <TableCell sx={{ pl: 2, minWidth: "150px" }}>
                   <Typography variant="subtitle2" fontWeight={600}>
                     Actions
@@ -72,128 +72,157 @@ const CustomTable: React.FC<{
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((row) => (
-              <TableRow key={row.userid}>
-                {columns.map((text) => {
-                  const key = text.toLowerCase().replaceAll(" ", "");
-                  if (title === "All Customers" && key === "status") {
-                    return (
-                      <TableCell key={key} sx={{ pl: 2, minWidth: "150px" }}>
-                        <Typography variant="subtitle2" fontWeight={600}>
-                          <CustomSelect
-                            labelId="status-dd"
-                            id="status-dd"
-                            size="small"
-                            defaultValue={row[key]}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
-                            ) => {
-                              handleStatusChange(e, row.userid);
-                            }}
-                          >
-                            <MenuItem value={"Active"}>Active</MenuItem>
-                            <MenuItem value={"Inactive"}>Inactive</MenuItem>
-                          </CustomSelect>
-                        </Typography>
-                      </TableCell>
-                    );
-                  } else if (
-                    title === "All Withdrawals" &&
-                    key === "cryptocurrency"
-                  ) {
-                    const currency = WITHDRAWTABLECURRENCIES[row[key]];
-                    return (
-                      <TableCell key={key} sx={{ pl: 2 }}>
-                        <Stack direction="row" spacing={2}>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "10px",
-                              flexWrap: "wrap",
-                            }}
-                          >
-                            <Image
-                              src={currency.img}
-                              height={20}
-                              width={20}
-                              style={{ objectFit: "contain" }}
-                              alt={row[key].name}
-                            />
-                            <Typography
-                              sx={{ textTransform: "capitalize" }}
-                              variant="subtitle2"
-                              fontWeight={600}
-                            >
-                              {currency.label}
-                            </Typography>
-                          </Box>
-                        </Stack>
-                      </TableCell>
-                    );
-                  } else {
-                    return (
-                      <TableCell key={key} sx={{ pl: 2 }}>
-                        <Stack direction="row" spacing={2}>
-                          <Box>
-                            <Typography variant="subtitle2" fontWeight={600}>
-                              {row[key]}
-                            </Typography>
-                          </Box>
-                        </Stack>
-                      </TableCell>
-                    );
-                  }
-                })}
-
-                {title === "All Customers" && (
-                  <TableCell sx={{ pl: 2 }}>
-                    <Stack direction="row" spacing={2}>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "10px",
-                        }}
-                      >
-                        <Button
-                          variant="outlined"
-                          onClick={() => {
-                            router.push(
-                              `/application/${row.userid}?name=${row.firstname}`
-                            );
-                          }}
-                        >
-                          View Applications
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          color="success"
-                          onClick={() => {
-                            router.push(
-                              `/chat/${row.userid}?name=${row.firstname} ${row.lastname}`
-                            );
-                          }}
-                        >
-                          Chat
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          color="success"
-                          onClick={() => {
-                            router.push(
-                              `/kyc/${row.userid}?name=${row.firstname} ${row.lastname}`
-                            );
-                          }}
-                        >
-                          View KYC
-                        </Button>
-                      </Box>
-                    </Stack>
-                  </TableCell>
-                )}
+            {data.length === 0 ? (
+              <TableRow>
+                <Box
+                  sx={{
+                    width: "600%",
+                    textAlign: "center",
+                    paddingBlock: "40px",
+                  }}
+                >
+                  <Typography>No records</Typography>
+                </Box>
               </TableRow>
-            ))}
+            ) : (
+              data.map((row) => (
+                <TableRow key={row.userid}>
+                  {columns.map((text) => {
+                    const key = text.toLowerCase().replaceAll(" ", "");
+                    if (title === "All Customers" && key === "status") {
+                      return (
+                        <TableCell key={key} sx={{ pl: 2, minWidth: "150px" }}>
+                          <Typography variant="subtitle2" fontWeight={600}>
+                            <CustomSelect
+                              labelId="status-dd"
+                              id="status-dd"
+                              size="small"
+                              defaultValue={row[key]}
+                              onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                              ) => {
+                                handleStatusChange(e, row.userid);
+                              }}
+                            >
+                              <MenuItem value={"Active"}>Active</MenuItem>
+                              <MenuItem value={"Inactive"}>Inactive</MenuItem>
+                            </CustomSelect>
+                          </Typography>
+                        </TableCell>
+                      );
+                    } else if (
+                      title === "All Withdrawals" &&
+                      key === "cryptocurrency"
+                    ) {
+                      const currency = WITHDRAWTABLECURRENCIES[row[key]];
+                      return (
+                        <TableCell key={key} sx={{ pl: 2 }}>
+                          <Stack direction="row" spacing={2}>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "10px",
+                                flexWrap: "wrap",
+                              }}
+                            >
+                              <Image
+                                src={currency.img}
+                                height={20}
+                                width={20}
+                                style={{ objectFit: "contain" }}
+                                alt={row[key].name}
+                              />
+                              <Typography
+                                sx={{ textTransform: "capitalize" }}
+                                variant="subtitle2"
+                                fontWeight={600}
+                              >
+                                {currency.label}
+                              </Typography>
+                            </Box>
+                          </Stack>
+                        </TableCell>
+                      );
+                    } else {
+                      return (
+                        <TableCell key={key} sx={{ pl: 2 }}>
+                          <Stack direction="row" spacing={2}>
+                            <Box>
+                              <Typography variant="subtitle2" fontWeight={600}>
+                                {row[key]}
+                              </Typography>
+                            </Box>
+                          </Stack>
+                        </TableCell>
+                      );
+                    }
+                  })}
+
+                  {title === "Chats" && (
+                    <TableCell sx={{ pl: 2 }}>
+                      <Stack direction="row" spacing={2}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "10px",
+                          }}
+                        >
+                          <Button
+                            variant="contained"
+                            color="success"
+                            onClick={() => {
+                              router.push(
+                                `/chat/${row.userid}?name=${row.firstname} ${row.lastname}`
+                              );
+                            }}
+                          >
+                            Chat
+                          </Button>
+                        </Box>
+                      </Stack>
+                    </TableCell>
+                  )}
+
+                  {title === "All Customers" && (
+                    <TableCell sx={{ pl: 2 }}>
+                      <Stack direction="row" spacing={2}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "10px",
+                          }}
+                        >
+                          <Button
+                            variant="outlined"
+                            onClick={() => {
+                              router.push(
+                                `/application/${row.userid}?name=${row.firstname}`
+                              );
+                            }}
+                          >
+                            View Applications
+                          </Button>
+                          <Button
+                            variant="outlined"
+                            color="success"
+                            onClick={() => {
+                              router.push(
+                                `/kyc/${row.userid}?name=${row.firstname} ${row.lastname}`
+                              );
+                            }}
+                          >
+                            View KYC
+                          </Button>
+                        </Box>
+                      </Stack>
+                    </TableCell>
+                  )}
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </TableContainer>

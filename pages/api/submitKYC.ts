@@ -32,7 +32,7 @@ export default async function handler(req: any, res: any) {
         const db = await getDB();
         const query =
           "UPDATE users set kycstatus = ?, kyclink = ?, kycdoctype=?, country=? WHERE userid = ?";
-        const values = ["Pending Review", file.filename, req.body.doctype, req.body.country,  userid];
+        const values = ["Pending", file.filename, req.body.doctype, req.body.country,  userid];
         if (db) {
           db.execute(query, values, function (err, results, fields) {
             if (err) {

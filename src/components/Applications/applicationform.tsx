@@ -319,20 +319,8 @@ const ApplicationForm: React.FC<PROPS> = ({
                   <FormControlLabel
                     checked={
                       formData.account
-                        ? formData.account === "$280,000 Account"
-                        : accountType === "$280,000 Account"
-                    }
-                    onChange={handleAccountTypeChange}
-                    value="$280,000 Account"
-                    label="$280,000 Account"
-                    name="radio-button-demo"
-                    control={<CustomRadio />}
-                  />
-                  <FormControlLabel
-                    checked={
-                      formData.account
-                        ? formData.account === "$80,000 Account"
-                        : accountType === "$80,000 Account"
+                      ? formData.account === "$80,000 Account"
+                      : accountType === "$80,000 Account"
                     }
                     onChange={handleAccountTypeChange}
                     value="$80,000 Account"
@@ -340,6 +328,18 @@ const ApplicationForm: React.FC<PROPS> = ({
                     control={<CustomRadio />}
                     name="radio-button-demo"
                   />
+                    <FormControlLabel
+                      checked={
+                        formData.account
+                          ? formData.account === "$250,000 Account"
+                          : accountType === "$250,000 Account"
+                      }
+                      onChange={handleAccountTypeChange}
+                      value="$250,000 Account"
+                      label="$250,000 Account"
+                      name="radio-button-demo"
+                      control={<CustomRadio />}
+                    />
                 </Box>
               </FormControl>
             </Grid>

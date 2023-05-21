@@ -90,7 +90,7 @@ const KYC = () => {
           severity={
             kyc.kycstatus === "Not Submitted"
               ? "info"
-              : kyc.kycstatus === "Pending Review"
+              : kyc.kycstatus === "Pending"
               ? "warning"
               : kyc.kycstatus === "Accepted"
               ? "success"

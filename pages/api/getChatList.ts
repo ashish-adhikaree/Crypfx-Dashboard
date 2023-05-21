@@ -9,8 +9,9 @@ export default async function handler(
     const [canAccess, userid, type] = isAuthenticated(req, res) as Array<any>;
     if (canAccess && type == "Admin") {
       const db = await getDB();
-      const query = "SELECT * from users WHERE type = ?";
-      const values = ["Customer"];
+      const query =
+        "SELECT u.userid, u.firstname, u.lastname,u.email, COUNT(m.responded) AS unreads FROM users u LEFT JOIN messages m ON m.convid = u.userid AND m.responded = 0 GROUP BY u.userid ORDER BY unreads desc";
+      const values = ["Customer", 0];
       if (db) {
         db.execute(query, values, function (err, results: any, fields) {
           if (err) {
@@ -25,9 +26,7 @@ export default async function handler(
                 firstname: row.firstname,
                 lastname: row.lastname,
                 email: row.email,
-                status: row.status,
-                kycstatus: row.kycstatus,
-                membersince: new Date(row.inserton).toDateString(),
+                unreads: row.unreads,
               };
             });
             res.status(200).json({

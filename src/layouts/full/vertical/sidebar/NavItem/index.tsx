@@ -99,7 +99,7 @@ const NavItem = ({ item, level, pathDirect, hideMenu, onClick }: ItemType) => {
     <List component="li" disablePadding key={item?.id && item.title}>
       <Link
         href={
-          item.title && item.title === "Chat"
+          item.title && item.title === "Chat with Admin"
             ? `${item.href}/${userid}`
             : item.href
         }
@@ -108,7 +108,7 @@ const NavItem = ({ item, level, pathDirect, hideMenu, onClick }: ItemType) => {
           // {...listItemProps}
           disabled={item?.disabled}
           selected={
-            item.title && item.title === "Chat"
+            item.title && item.title === "Chat with Admin"
               ? pathDirect === "/chat/[convid]"
               : pathDirect === item?.href
           }

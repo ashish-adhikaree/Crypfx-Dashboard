@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import PageContainer from "../../src/components/container/Pagecontainer";
 import {
   Avatar,
@@ -19,6 +19,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import DefaultUserImage from "../../public/images/profile/defaultuser.png";
 import Head from "next/head";
+import CustomTextField from "../../src/components/forms/theme-elements/CustomTextField";
 
 const Chat = () => {
   const { userid, type } = useContext(AuthContext);
@@ -27,6 +28,7 @@ const Chat = () => {
   const name = router.query.name;
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState<Array<any>>([]);
+  const chatbox = useRef<HTMLDivElement>(null);
   const getMessages = async () => {
     const { data } = await axios.post("/api/getMessages", {
       convid: convid,
@@ -36,24 +38,40 @@ const Chat = () => {
     }
   };
 
-  const sendMessage = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const scrolltoDown = () =>{
+    if (chatbox && chatbox.current) {
+      chatbox.current.scrollTop = chatbox.current.scrollHeight;
+    }
+  }
+
+  const sendMessage = async (
+    e: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent
+  ) => {
     e.preventDefault();
     messages.push({
       convid: convid,
       byAdmin: type === "Admin" ? 1 : 0,
       message: newMessage,
-      inserton: Date.now()
+      inserton: Date.now(),
     });
+    scrolltoDown()
     setNewMessage("");
     const { data } = await axios.post("/api/sendMessage", {
       convid: convid,
       message: newMessage,
     });
-    console.log(data);
   };
+  
+  useEffect(() => {
+    scrolltoDown()
+  }, [messages]);
 
   useEffect(() => {
-    getMessages();
+    getMessages()
+    const t = setInterval(() => getMessages(), 5000);
+    return () => {
+      clearInterval(t);
+    };
   }, []);
 
   if (type === "Admin" || userid === convid) {
@@ -121,6 +139,7 @@ const Chat = () => {
 
               <Box width="100%" height="100%">
                 <Box
+                  ref={chatbox}
                   sx={{
                     height: "100%",
                     overflow: "auto",
@@ -256,7 +275,8 @@ const Chat = () => {
                 gap: "20px",
               }}
             >
-              <TextareaAutosize
+              <input
+                type="text"
                 style={{
                   width: "100%",
                   height: "65px",
@@ -264,13 +284,19 @@ const Chat = () => {
                   outline: "none",
                   fontFamily: "'Plus Jakarta Sans', sans-serif",
                   padding: "20px",
-                  resize: "none",
                 }}
                 value={newMessage}
-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                onKeyUp={(e: React.KeyboardEvent) => {
+                  if (
+                    (e.key === "Enter" || e.keyCode === 13) &&
+                    newMessage.length !== 0
+                  ) {
+                    sendMessage(e);
+                  }
+                }}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setNewMessage(e.target.value);
                 }}
-                maxRows={8}
                 placeholder="Type a message"
               />
               <button
