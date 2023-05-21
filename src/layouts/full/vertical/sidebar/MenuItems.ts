@@ -40,7 +40,7 @@ export const CustomerMenuitems: MenuitemsType[] = [
   {
     id: uniqueId(),
     title: "KYC",
-    icon: IconUserExclamation,
+    icon: IconUser,
     href: "/kyc",
   },
   {

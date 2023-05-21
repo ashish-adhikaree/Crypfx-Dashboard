@@ -200,7 +200,19 @@ const IndividualKYC = () => {
         {kyc.kyclink ? (
           <Box marginTop={5}>
             <Box>
-              <Typography variant="h5">Submitted doc</Typography>
+              <Box sx={{ marginBlock: "20px" }}>
+                <Typography variant="h6">Country</Typography>
+                <Typography>{kyc.country}</Typography>
+              </Box>
+              <Box sx={{ marginBlock: "20px" }}>
+                <Typography variant="h6">Document type</Typography>
+                <Typography sx={{ textTransform: "capitalize" }}>
+                  {kyc.kycdoctype}
+                </Typography>
+              </Box>
+              <Typography variant="h6" sx={{ marginBottom: "20px" }}>
+                Submitted Document
+              </Typography>
               <img
                 height={200}
                 width={200}

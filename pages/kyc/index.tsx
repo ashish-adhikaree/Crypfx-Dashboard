@@ -1,4 +1,12 @@
-import { Alert, Box, Button, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  FormControlLabel,
+  FormGroup,
+  MenuItem,
+  Typography,
+} from "@mui/material";
 import { IconFileText } from "@tabler/icons-react";
 import axios from "axios";
 import Head from "next/head";
@@ -7,11 +15,21 @@ import { AuthContext } from "../../context";
 import { errorToast, successToast } from "../../customToasts";
 import Link from "next/link";
 import Image from "next/image";
+import CustomFormLabel from "../../src/components/forms/theme-elements/CustomFormLabel";
+import CustomSelect from "../../src/components/forms/theme-elements/CustomSelect";
+import CustomTextField from "../../src/components/forms/theme-elements/CustomTextField";
+import CustomCheckbox from "../../src/components/forms/theme-elements/CustomCheckbox";
+import { IconCloudUpload } from "@tabler/icons-react";
+import { useRouter } from "next/router";
 
 const KYC = () => {
   const { userid } = useContext(AuthContext);
   const [kyc, setKyc] = useState<any>([]);
+  const router = useRouter();
   const [filetoupload, setfiletoupload] = useState<any>();
+  const [country, setCountry] = useState<string>("");
+  const [doctype, setDoctype] = useState<string>("id");
+  const [agreePolicy, setAgreepolicy] = useState<boolean>(false);
   const getKYC = async () => {
     const { data } = await axios.post("/api/getKYC", {
       userid: userid,
@@ -34,12 +52,15 @@ const KYC = () => {
     if (filetoupload) {
       kycdata.append("file", filetoupload);
       kycdata.append("kyclink", kyc.kyclink ? kyc.kyclink : "");
+      kycdata.append("doctype", doctype);
+      kycdata.append("country", country);
     }
     try {
       const { data } = await axios.post("/api/submitKYC", kycdata, {
         headers: { "content-type": "multipart/form-data" },
       });
       if (data.status === "success") {
+        router.reload();
         successToast(data.message);
       } else if (data.status === "error") {
         errorToast(data.message);
@@ -59,7 +80,8 @@ const KYC = () => {
         <title>KYC | Crypfx</title>
       </Head>
       <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-        <Typography variant="h4">KYC</Typography>
+        <Typography variant="h4">Upload a proof of your identity</Typography>
+        <Typography>A valid government issued ID (Passport, ID)</Typography>
         <Alert
           sx={{
             width: "fit-content",
@@ -79,7 +101,16 @@ const KYC = () => {
         </Alert>
         {kyc.kyclink ? (
           <Box>
-            <Typography variant="h5">Submitted doc</Typography>
+            <Box sx={{ marginBlock: "20px" }}>
+              <Typography variant="h6">Country</Typography>
+              <Typography>{kyc.country}</Typography>
+            </Box>
+            <Box sx={{ marginBlock: "20px" }}>
+              <Typography variant="h6">Document type</Typography>
+              <Typography sx={{textTransform:"capitalize"}}>{kyc.kycdoctype}</Typography>
+            </Box>
+            <Typography variant="h6" sx={{marginBottom:"20px"}}>Submitted Document</Typography>
+
             <Image
               height={200}
               width={200}
@@ -87,92 +118,164 @@ const KYC = () => {
               src={`data:image/png;base64,${bufferToBase64(kyc.file)}`}
             />
           </Box>
-        ) : filetoupload ? (
-          <>
-            <Box>
-              <Typography variant="h5" sx={{ marginBlock: "10px" }}>
-                Selected doc
-              </Typography>
-              <Image
-                height={200}
-                width={200}
-                alt="kyc"
-                src={URL.createObjectURL(filetoupload)}
-              />
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                flexWrap: "wrap",
-                gap: "20px",
-              }}
-            >
-              <Button color="primary" onClick={uploadFile}>
-                Upload KYC
-              </Button>
-              <Button
-                color="error"
-                onClick={() => {
-                  setfiletoupload("");
-                }}
-              >
-                Remove Selected
-              </Button>
-            </Box>
-          </>
         ) : (
           <>
             <form>
               <Box
                 sx={{
-                  height: "200px",
-                  width: "min(100%,300px)",
-                  border: "1px solid #aeaeae",
                   display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
+                  justifyContent: "space-between",
                   alignItems: "center",
-                  padding: "10px",
-                  textAlign: "center",
-                  position: "relative",
-                  fontWeight: "700",
+                  flexWrap: "wrap",
+                  maxWidth: "550px",
+                  gap: "20px",
+                  marginBottom: "20px",
                 }}
               >
-                <IconFileText height={80} width={80} strokeWidth={1} />
-                Click here or Drag and Drop your ID/Passport here. Only jpg/jpeg
-                is accepted
-                <input
-                  style={{
-                    opacity: "0",
-                    position: "absolute",
-                    inset: "0",
-                    cursor: "pointer",
+                <Box sx={{ flex: "1", minWidth: "min(100%,200px)" }}>
+                  <CustomFormLabel
+                    sx={{
+                      mt: "20px",
+                    }}
+                    htmlFor="country"
+                  >
+                    Your Country
+                  </CustomFormLabel>
+                  <CustomTextField
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setCountry(e.target.value);
+                    }}
+                    value={country}
+                    id="country"
+                    variant="outlined"
+                    fullWidth
+                  />
+                </Box>
+                <Box sx={{ flex: "1", minWidth: "min(100%,200px)" }}>
+                  <CustomFormLabel
+                    sx={{
+                      mt: "20px",
+                    }}
+                    htmlFor="doctype"
+                  >
+                    Document Type
+                  </CustomFormLabel>
+                  <CustomSelect
+                    fullWidth
+                    id="doctype"
+                    variant="outlined"
+                    value={doctype}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                      setDoctype(e.target.value);
+                    }}
+                  >
+                    <MenuItem key="id" value="id">
+                      ID
+                    </MenuItem>
+                    <MenuItem key="passport" value="passport">
+                      Passport
+                    </MenuItem>
+                  </CustomSelect>
+                </Box>
+              </Box>
+              {filetoupload ? (
+                <>
+                  <Box>
+                    <Typography variant="h5" sx={{ marginBlock: "10px" }}>
+                      Selected doc
+                    </Typography>
+                    <Image
+                      height={200}
+                      width={200}
+                      style={{ objectFit: "contain" }}
+                      alt="kyc"
+                      src={URL.createObjectURL(filetoupload)}
+                    />
+                  </Box>
+                </>
+              ) : (
+                <Box
+                  sx={{
+                    height: "200px",
+                    width: "min(100%,300px)",
+                    border: "1px solid #aeaeae",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: "10px",
+                    textAlign: "center",
+                    fontWeight: "700",
                   }}
-                  onChange={handleChange}
-                  accept="[image/jpg, image/jpeg]"
-                  type="file"
+                >
+                  <IconCloudUpload height={40} width={40} strokeWidth={1} />
+                  <Typography variant="h6">Upload Your Document</Typography>
+                  <Typography>Support: JPG/ JPEG/ PNG</Typography>
+                  <Box
+                    sx={{
+                      position: "relative",
+                      height: "40px",
+                      width: "130px",
+                      marginTop: "30px",
+                      background: "#3A3A3A",
+                      color: "white",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Choose File
+                    <input
+                      style={{
+                        opacity: "0",
+                        position: "absolute",
+                        inset: "0",
+                        cursor: "pointer",
+                      }}
+                      onChange={handleChange}
+                      accept="[image/jpg, image/jpeg, image/png]"
+                      type="file"
+                    />
+                  </Box>
+                </Box>
+              )}
+              <FormGroup sx={{ marginBlock: "20px" }}>
+                <FormControlLabel
+                  control={<CustomCheckbox />}
+                  label="I confirm that I uploaded a valid government-issued photo ID. This ID includes my picture, signature, name, date of birth"
+                  name="agreetopolicy"
+                  onChange={() => {
+                    setAgreepolicy(true);
+                  }}
                 />
-                {/* <Button
-                onClick={() => {
-                  if (inputRef.current) {
-                    inputRef.current.click();
-                  }
+              </FormGroup>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  gap: "20px",
                 }}
-                color="primary"
-                type="submit"
-                sx={{ marginTop: "20px" }}
               >
-                Upload KYC
-                <input
-                  ref={inputRef}
-                  hidden
-                  onChange={uploadFile}
-                  accept="[image/jpg, image/jpeg,application/pdf]"
-                  type="file"
-                />
-              </Button> */}
+                <Button
+                  color="primary"
+                  onClick={uploadFile}
+                  disabled={
+                    country.length === 0 || doctype.length === 0 || !agreePolicy
+                  }
+                >
+                  Upload KYC
+                </Button>
+                <Button
+                  color="error"
+                  onClick={() => {
+                    setfiletoupload("");
+                  }}
+                  disabled={!filetoupload}
+                >
+                  Remove Selected
+                </Button>
               </Box>
             </form>
           </>

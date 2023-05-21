@@ -13,7 +13,8 @@ export default async function handler(
     const body = req.body;
     if (canAccess && (type == "Admin" || userid === body.userid)) {
       const db = await getDB();
-      const query = "SELECT kycstatus, kyclink from users WHERE userid = ?";
+      const query =
+        "SELECT kycstatus, kyclink, kycdoctype, country from users WHERE userid = ?";
       const values = [body.userid];
       if (db) {
         db.execute(query, values, function (err, results: any, fields) {

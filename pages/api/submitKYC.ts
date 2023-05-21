@@ -27,11 +27,12 @@ export default async function handler(req: any, res: any) {
 
         // File uploaded successfully
         const { file } = req;
+        const body = req.body
 
         const db = await getDB();
         const query =
-          "UPDATE users set kycstatus = ?, kyclink = ? WHERE userid = ?";
-        const values = ["Pending Review", file.filename, userid];
+          "UPDATE users set kycstatus = ?, kyclink = ?, kycdoctype=?, country=? WHERE userid = ?";
+        const values = ["Pending Review", file.filename, req.body.doctype, req.body.country,  userid];
         if (db) {
           db.execute(query, values, function (err, results, fields) {
             if (err) {
