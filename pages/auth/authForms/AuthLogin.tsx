@@ -215,12 +215,13 @@ const AuthLogin = ({ subtitle }: loginType) => {
     }
   };
   const handleSignup = async (formData: any) => {
-    console.log(formData)
+    console.log(formData);
     try {
       const { data } = await axios.post("/api/auth/signup", formData);
       if (data.status === "success") {
         setFormData({});
         successToast(data.message);
+        setType(0);
       } else if (data.status === "error") {
         errorToast(data.message);
       }
@@ -354,7 +355,7 @@ const AuthLogin = ({ subtitle }: loginType) => {
                       isEmailValid &&
                       (e.key === "Enter" || e.keyCode === 13)
                     ) {
-                      handleLogin(formData)
+                      handleLogin(formData);
                     }
                   }}
                   handleFormFieldChange={handleFormFieldChange}

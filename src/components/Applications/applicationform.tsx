@@ -214,7 +214,7 @@ const ApplicationForm: React.FC<PROPS> = ({
                   setFormData({ ...formData, fullname: e.target.value });
                 }}
                 value={formData.fullname ? formData.fullname : ""}
-                placeholder="John Doe"
+                placeholder=""
                 id="fname-text"
                 variant="outlined"
                 fullWidth
@@ -234,7 +234,7 @@ const ApplicationForm: React.FC<PROPS> = ({
                   setFormData({ ...formData, email: e.target.value });
                 }}
                 value={formData.email ? formData.email : ""}
-                placeholder="email@crypfxuk.com"
+                placeholder=""
                 id="email-text"
                 variant="outlined"
                 fullWidth
