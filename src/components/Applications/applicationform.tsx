@@ -291,8 +291,8 @@ const ApplicationForm: React.FC<PROPS> = ({
                   <FormControlLabel
                     checked={
                       formData.account
-                        ? formData.account === "$10,000 Funded"
-                        : accountType === "$10,000 Funded"
+                        ? formData.account === "$10,000 Account"
+                        : accountType === "$10,000 Account"
                     }
                     onChange={handleAccountTypeChange}
                     value="$10,000 Account"
