@@ -29,7 +29,7 @@ const IndividualKYC = () => {
     const { data } = await axios.post("/api/updateKYCStatus", {
       userid: userid,
       status: status,
-      kyclink: status === "Rejected" ? "" : kyc.kyclink,
+      kyclink: kyc.kyclink,
     });
     if (data.status === "success") {
       successToast(data.message);

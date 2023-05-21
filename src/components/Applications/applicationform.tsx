@@ -258,6 +258,23 @@ const ApplicationForm: React.FC<PROPS> = ({
                 variant="outlined"
                 fullWidth
               />
+              <CustomFormLabel
+                sx={{
+                  mt: '20px',
+                }}
+                htmlFor="birth-text"
+              >
+                Birth Date
+              </CustomFormLabel>
+              <CustomTextField
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setFormData({ ...formData, birthdate: e.target.value });
+                }}
+                value={formData.birthdate ? formData.birthdate : ""}
+                id="birth-text"
+                variant="outlined"
+                fullWidth
+              />
             </Grid>
             <Grid item lg={6} md={12} sm={12} xs={12}>
               <CustomFormLabel sx={{ mt: 0 }}>
@@ -278,20 +295,20 @@ const ApplicationForm: React.FC<PROPS> = ({
                         : accountType === "$10,000 Funded"
                     }
                     onChange={handleAccountTypeChange}
-                    value="$10,000 Funded"
-                    label="$10,000 Funded"
+                    value="$10,000 Account"
+                    label="$10,000 Account"
                     control={<CustomRadio />}
                     name="radio-button-demo"
                   />
                   <FormControlLabel
                     checked={
                       formData.account
-                        ? formData.account === "$25,000 Funded"
-                        : accountType === "$25,000 Funded"
+                        ? formData.account === "$25,000 Account"
+                        : accountType === "$25,000 Account"
                     }
                     onChange={handleAccountTypeChange}
-                    value="$25,000 Funded"
-                    label="$25,000 Funded"
+                    value="$25,000 Account"
+                    label="$25,000 Account"
                     name="radio-button-demo"
                     control={<CustomRadio />}
                   />
@@ -302,20 +319,20 @@ const ApplicationForm: React.FC<PROPS> = ({
                   <FormControlLabel
                     checked={
                       formData.account
-                        ? formData.account === "$280,000 Funded"
-                        : accountType === "$280,000 Funded"
+                        ? formData.account === "$280,000 Account"
+                        : accountType === "$280,000 Account"
                     }
                     onChange={handleAccountTypeChange}
-                    value="$280,000 Funded"
-                    label="$280,000 Funded"
+                    value="$280,000 Account"
+                    label="$280,000 Account"
                     name="radio-button-demo"
                     control={<CustomRadio />}
                   />
                   <FormControlLabel
                     checked={
                       formData.account
-                        ? formData.account === "$80,000 Funded"
-                        : accountType === "$80,000 Funded"
+                        ? formData.account === "$80,000 Account"
+                        : accountType === "$80,000 Account"
                     }
                     onChange={handleAccountTypeChange}
                     value="$80,000 Funded"
@@ -327,7 +344,7 @@ const ApplicationForm: React.FC<PROPS> = ({
               </FormControl>
             </Grid>
           </Grid>
-          <Alert severity="info">Questions</Alert>
+          <Alert severity="info">Questions<p>The more details you provide, the better.</p></Alert>
           <Grid container spacing={3} mb={3} mt={1}>
             {Questions.map((question) => {
               return (

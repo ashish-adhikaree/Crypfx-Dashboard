@@ -33,6 +33,7 @@ const KYC = () => {
     const kycdata = new FormData();
     if (filetoupload) {
       kycdata.append("file", filetoupload);
+      kycdata.append("kyclink", kyc.kyclink ? kyc.kyclink : "");
     }
     try {
       const { data } = await axios.post("/api/submitKYC", kycdata, {
@@ -89,7 +90,9 @@ const KYC = () => {
         ) : filetoupload ? (
           <>
             <Box>
-              <Typography variant="h5" sx={{marginBlock:"10px"}}>Selected doc</Typography>
+              <Typography variant="h5" sx={{ marginBlock: "10px" }}>
+                Selected doc
+              </Typography>
               <Image
                 height={200}
                 width={200}
@@ -98,7 +101,14 @@ const KYC = () => {
               />
             </Box>
 
-            <Box sx={{display:"flex",alignItems:"center", flexWrap:"wrap", gap:"20px"}}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                flexWrap: "wrap",
+                gap: "20px",
+              }}
+            >
               <Button color="primary" onClick={uploadFile}>
                 Upload KYC
               </Button>

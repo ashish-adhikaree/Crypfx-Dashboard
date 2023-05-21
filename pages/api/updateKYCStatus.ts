@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getDB } from "./db";
 import { isAuthenticated } from "./isAuthenticated";
+import fs from "fs";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -16,9 +17,16 @@ export default async function handler(
         });
         return;
       }
+
       const db = await getDB();
-      const query = "UPDATE users set kycstatus = ?, kyclink = ? WHERE userid = ? and kycstatus = ?";
-      const values = [body.status, body.kyclink, body.userid, "Pending Review"];
+      const query =
+        "UPDATE users set kycstatus = ?, kyclink = ? WHERE userid = ? and kycstatus = ?";
+      const values = [
+        body.status,
+        body.status === "Rejected" ? "" : body.kyclink,
+        body.userid,
+        "Pending Review",
+      ];
       if (db) {
         db.execute(query, values, function (err, results: any, fields) {
           console.log();
@@ -28,6 +36,7 @@ export default async function handler(
               message: "Something went wrong",
             });
           } else if (results.affectedRows !== 0) {
+            fs.unlink(`public/kyc/${body.kyclink}`, () => {});
             res.status(200).json({
               status: "success",
               message: "KYC Status Changed Successfully",

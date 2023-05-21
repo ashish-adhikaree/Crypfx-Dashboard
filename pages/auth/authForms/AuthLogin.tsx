@@ -59,6 +59,7 @@ const SIGNUPFIELDS = [
     icon: <KeyOutlinedIcon />,
   },
 ];
+
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -214,6 +215,7 @@ const AuthLogin = ({ subtitle }: loginType) => {
     }
   };
   const handleSignup = async (formData: any) => {
+    console.log(formData)
     try {
       const { data } = await axios.post("/api/auth/signup", formData);
       if (data.status === "success") {
@@ -348,7 +350,7 @@ const AuthLogin = ({ subtitle }: loginType) => {
                       formData.email &&
                       formData.email !== "" &&
                       formData.password &&
-                      formData.password > 5 &&
+                      formData.password.length > 5 &&
                       isEmailValid &&
                       (e.key === "Enter" || e.keyCode === 13)
                     ) {
@@ -464,7 +466,7 @@ const AuthLogin = ({ subtitle }: loginType) => {
                 !formData.password ||
                 formData.password.length < 6 ||
                 !formData.confirmpassword ||
-                formData.passowrd !== formData.confirmpassword ||
+                formData.password !== formData.confirmpassword ||
                 !formData.agreetopolicy
               }
             >

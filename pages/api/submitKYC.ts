@@ -50,7 +50,6 @@ export default async function handler(req: any, res: any) {
           db.end();
         }
       });
-
     } else {
       res.status(200).json({
         status: "error",
@@ -66,7 +65,7 @@ export default async function handler(req: any, res: any) {
 }
 
 export const config = {
-    api: {
-      bodyParser: false,
-    },
-  };
+  api: {
+    bodyParser: false,
+  },
+};

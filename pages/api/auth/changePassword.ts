@@ -1,11 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getDB } from "../db";
 import bcrypt from "bcryptjs";
-import { setCookie } from "cookies-next";
-import jwt from "jsonwebtoken";
 import { isAuthenticated } from "../isAuthenticated";
 import Connection from "mysql2/typings/mysql/lib/Connection";
-import { NextResponse } from "next/server";
 
 const Query = async (
   values: string[],

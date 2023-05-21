@@ -12,12 +12,13 @@ export default async function handler(
       const body = req.body;
       const db = await getDB();
       const query =
-        "INSERT INTO applications (customer, fullname, email,country, account, tradingperiod, tradertype, averagemonthlygain, riskpercentage, currencypair, forexbroker, tradingjourney, currentaccountsize, whyneedus, status, message) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        "INSERT INTO applications (customer, fullname, email,country,birthdate, account, tradingperiod, tradertype, averagemonthlygain, riskpercentage, currencypair, forexbroker, tradingjourney, currentaccountsize, whyneedus, status, message) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       const values = [
         body.userid,
         body.fullname,
         body.email,
         body.country,
+        body.birthdate,
         body.account,
         body.tradingperiod,
         body.tradertype,
@@ -28,10 +29,10 @@ export default async function handler(
         body.tradingjourney,
         body.currentaccountsize,
         body.whyneedus,
-        body.account === "$10,000 Funded" || body.account === "$25,000 Funded"
+        body.account === "$10,000 Account" || body.account === "$25,000 Account"
           ? "Accepted"
           : "Under Review",
-        body.account === "$10,000 Funded" || body.account === "$25,000 Funded"
+        body.account === "$10,000 Account" || body.account === "$25,000 Account"
           ? "Your application has been accepted."
           : "Application Submitted Successfully. It is pending review from the admin",
       ];
