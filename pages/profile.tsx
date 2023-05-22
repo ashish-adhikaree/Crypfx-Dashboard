@@ -203,10 +203,15 @@ const AccountTab = () => {
                           ).toString("base64")}`
                         : filetoupload
                         ? URL.createObjectURL(filetoupload)
-                        : "/images/profile/user-1.jpg"
+                        : "/images/profile/defaultuser.png"
                     }
                     alt={"user1"}
-                    sx={{ width: 120, height: 120, margin: "0 auto" }}
+                    sx={{
+                      width: 120,
+                      height: 120,
+                      margin: "0 auto",
+                      background: "rgba(58, 58, 58, .15)",
+                    }}
                   />
                   <Stack
                     direction="row"
@@ -273,7 +278,7 @@ const AccountTab = () => {
         </Grid>
         {/*  Change Password */}
         <Grid item xs={12} lg={6}>
-          <BlankCard>
+          <BlankCard sx={{ height: "100%" }}>
             <CardContent>
               <Typography variant="h5" mb={1}>
                 Change Password

@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import WithdrawalHistory from "../../src/components/Withdrawal/withdrawalhistory";
 import WithdrawForm from "../../src/components/Withdrawal/withdrawform";
 import { Grid, Typography } from "@mui/material";
 import Breadcrumb from "../../src/layouts/full/shared/breadcrumb/Breadcrumb";

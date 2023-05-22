@@ -3,12 +3,27 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import { useTheme } from "@mui/material/styles";
 
 import DashboardWidgetCard from "../shared/DashboardWidgetCard";
+import { useEffect, useState } from "react";
+import { getXAxisDate } from "./getXAxisDates";
 
 const ProfitChart = () => {
   // chart color
   const theme = useTheme();
   const primary = theme.palette.primary.main;
-  const primarylight = theme.palette.grey[100];
+  const [xaxisDates, setXaxisDates] = useState<any>([]);
+
+  // Generating dates for X Asis
+
+  useEffect(() => {
+    const timezone = "Europe/London";
+    const uktime = new Intl.DateTimeFormat("default", {
+      timeZone: timezone,
+    }).format(new Date());
+    const currentmonth = parseInt(uktime.split("/")[0]) - 1;
+    const currentday = parseInt(uktime.split("/")[1]);
+    const currentyear = parseInt(uktime.split("/")[2]);
+    setXaxisDates(getXAxisDate(currentyear, currentmonth, currentday));
+  }, []);
 
   // chart
   const optionscolumnchart: any = {
@@ -46,14 +61,7 @@ const ProfitChart = () => {
       },
     },
     xaxis: {
-      categories: [
-        ["12th May"],
-        ["13th May"],
-        ["14th May"],
-        ["15th May"],
-        ["16th May"],
-        ["17th May"],
-      ],
+      categories: xaxisDates,
       axisBorder: {
         show: false,
       },
