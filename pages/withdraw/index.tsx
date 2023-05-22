@@ -46,7 +46,6 @@ const Withdrawal = () => {
       userid: userid,
     });
     if (data.status === "success") {
-      console.log(data.withdrawals);
       setWithdrawals(data.withdrawals);
     }
   };

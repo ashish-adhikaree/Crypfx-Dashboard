@@ -1,3 +1,4 @@
+import "../styles/globals.css";
 import React, { Suspense, useEffect, useState, useContext } from "react";
 import Head from "next/head";
 import { AppProps } from "next/app";
@@ -16,6 +17,8 @@ import BlankLayout from "../src/layouts/blank/BlankLayout";
 import FullLayout from "../src/layouts/full/FullLayout";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Router, useRouter } from "next/router";
+import NProgress from "nprogress";
 
 import "../src/_mockApis";
 import "../src/utils/i18n";
@@ -24,9 +27,7 @@ import "../src/utils/i18n";
 import "react-quill/dist/quill.snow.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useRouter } from "next/router";
 import axios from "axios";
-import Script from "next/script";
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
@@ -38,7 +39,7 @@ const layouts: any = {
   Blank: BlankLayout,
 };
 
-const MyApp = (props: MyAppProps) => {
+const MyApp = ({ router, ...props }: any) => {
   const {
     Component,
     emotionCache = clientSideEmotionCache,
@@ -49,7 +50,6 @@ const MyApp = (props: MyAppProps) => {
 
   const layout = pageProps.layout || "Full";
   const Layout = layouts[Component.layout] || FullLayout;
-  const router = useRouter();
   const authData = useContext(AuthContext);
 
   if (
@@ -69,10 +69,10 @@ const MyApp = (props: MyAppProps) => {
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
           {router.asPath.includes("auth") ? (
-            <Component {...pageProps} />
+            <Component {...pageProps} key={router.asPath} />
           ) : (
             <Layout>
-              <Component {...pageProps} />
+              <Component {...pageProps} key={router.asPath} />
             </Layout>
           )}
         </RTL>
@@ -92,6 +92,19 @@ export default (props: MyAppProps) => {
   }>();
 
   const router = useRouter();
+  useEffect(() => {
+    console.log("hello guys");
+    NProgress.configure({ showSpinner: false });
+
+    Router.events.on("routeChangeStart", () => {
+      console.log("hello guys started");
+
+      NProgress.start();
+    });
+    Router.events.on("routeChangeComplete", () => {
+      NProgress.done(false);
+    });
+  }, [Router]);
 
   const verifyjwt = async () => {
     const { data } = await axios.get("/api/getUserDetails");
@@ -140,27 +153,24 @@ export default (props: MyAppProps) => {
   }, []);
 
   return (
-
-
-      <Provider store={Store}>
-        <AuthContext.Provider
-          value={
-            authData
-              ? authData
-              : {
-                  isLoggedin: false,
-                  fullname: "",
-                  image: "",
-                  type: "",
-                  userid: "",
-                  email: "",
-                }
-          }
-        >
-          <MyApp {...props} />
-          <ToastContainer />
-        </AuthContext.Provider>
-      </Provider>
-    
+    <Provider store={Store}>
+      <AuthContext.Provider
+        value={
+          authData
+            ? authData
+            : {
+                isLoggedin: false,
+                fullname: "",
+                image: "",
+                type: "",
+                userid: "",
+                email: "",
+              }
+        }
+      >
+        <MyApp {...props} />
+        <ToastContainer />
+      </AuthContext.Provider>
+    </Provider>
   );
 };

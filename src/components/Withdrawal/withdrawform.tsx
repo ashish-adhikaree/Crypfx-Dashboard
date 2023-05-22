@@ -80,7 +80,7 @@ const WithdrawForm: React.FC<{
                       xs: "100%",
                     },
                   }}
-                  placeholder="XXX"
+                  placeholder="0.00"
                   id="fname-text"
                   variant="outlined"
                   fullWidth

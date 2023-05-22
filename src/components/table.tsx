@@ -144,15 +144,17 @@ const CustomTable: React.FC<{
             <TableBody>
               {data.length === 0 ? (
                 <TableRow>
-                  <Box
-                    sx={{
-                      width: "600%",
-                      textAlign: "center",
-                      paddingBlock: "40px",
-                    }}
-                  >
-                    <Typography>No records</Typography>
-                  </Box>
+                  <TableCell>
+                    <Box
+                      sx={{
+                        width: "700%",
+                        textAlign: "center",
+                        paddingBlock: "40px",
+                      }}
+                    >
+                      <Typography>No records</Typography>
+                    </Box>
+                  </TableCell>
                 </TableRow>
               ) : (
                 data.map((row) => (

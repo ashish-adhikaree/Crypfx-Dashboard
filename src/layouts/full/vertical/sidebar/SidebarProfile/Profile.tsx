@@ -72,7 +72,7 @@ export const Profile = () => {
       >
         <Box sx={{ background: "#ffffff", padding: "30px" }}>
           <Typography
-            color="error"
+            color="#3a3a3a"
             id="modal-modal-title"
             variant="h6"
             component="h2"
@@ -94,7 +94,12 @@ export const Profile = () => {
             </Button>
             <Button
               variant="contained"
-              color="error"
+              sx={{
+                background: "#3a3a3a",
+                "&:hover": {
+                  background: "#4b5563",
+                },
+              }}
               onClick={() => {
                 handleLogout();
                 setAlert(false);

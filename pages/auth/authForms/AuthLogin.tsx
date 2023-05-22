@@ -204,9 +204,8 @@ const AuthLogin = ({ subtitle }: loginType) => {
     try {
       const { data } = await axios.post("/api/auth/login", formData);
       if (data.status === "success") {
-        successToast(data.message);
         await router.push("/");
-        router.reload();
+        router.reload()
       } else if (data.status === "error") {
         errorToast(data.message);
       }
@@ -215,7 +214,6 @@ const AuthLogin = ({ subtitle }: loginType) => {
     }
   };
   const handleSignup = async (formData: any) => {
-    console.log(formData);
     try {
       const { data } = await axios.post("/api/auth/signup", formData);
       if (data.status === "success") {
@@ -261,8 +259,8 @@ const AuthLogin = ({ subtitle }: loginType) => {
       </Box>
       <Box sx={{ textAlign: "center" }}>
         <Typography fontWeight="700" variant="h3" mb={1}>
-          {type === 0 && "Welcome Back."}
-          {type === 1 && "Adventure Starts Here."}
+          {type === 0 && "Welcome Back"}
+          {type === 1 && "One step closer"}
         </Typography>
         <Typography
           variant="subtitle1"
@@ -270,7 +268,7 @@ const AuthLogin = ({ subtitle }: loginType) => {
           color="#929292"
           mb={1}
         >
-          {type === 0 && "Please enter your details."}
+          {type === 0 && "Signin to continue."}
           {type === 1 && "Register an account here."}
         </Typography>
       </Box>
@@ -369,7 +367,7 @@ const AuthLogin = ({ subtitle }: loginType) => {
                 >
                   <Typography
                     component={Link}
-                    href={`/auth/forgot-password?email=${(formData.email)}`}
+                    href={`/auth/forgot-password?email=${formData.email}`}
                     fontWeight="500"
                     sx={{
                       textDecoration: "none",
@@ -440,7 +438,20 @@ const AuthLogin = ({ subtitle }: loginType) => {
               <FormGroup sx={{ marginBottom: "20px" }}>
                 <FormControlLabel
                   control={<CustomCheckbox />}
-                  label="I agree to Terms and Conditions"
+                  label={
+                    <p>
+                      I agree to{" "}
+                      <Link
+                        style={{
+                          textDecoration: "underline",
+                          color: "black",
+                        }}
+                        href="https://crypfx.uk/term-and-conditions/"
+                      >
+                        Terms and Conditions
+                      </Link>
+                    </p>
+                  }
                   name="agreetopolicy"
                   onChange={handleAgreeToPolicy}
                 />

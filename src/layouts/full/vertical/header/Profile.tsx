@@ -98,7 +98,6 @@ const Profile = () => {
             m: 0,
             p: 2,
             color: "#3a3a3a",
-            cursor: "pointer",
           }}
         >
           <Modal
@@ -116,7 +115,7 @@ const Profile = () => {
           >
             <Box sx={{ background: "#ffffff", padding: "30px" }}>
               <Typography
-                color="error"
+                color="#3a3a3a"
                 id="modal-modal-title"
                 variant="h6"
                 component="h2"
@@ -138,7 +137,12 @@ const Profile = () => {
                 </Button>
                 <Button
                   variant="contained"
-                  color="error"
+                  sx={{
+                    background: "#3a3a3a",
+                    "&:hover": {
+                      background: "#4b5563",
+                    },
+                  }}
                   onClick={() => {
                     handleLogout();
                     setAlert(false);
@@ -163,13 +167,9 @@ const Profile = () => {
               src={DefaultUserImage.src}
             />
           )}
-          <Box
-            onClick={() => {
-              router.push("/profile");
-            }}
-          >
+          <Box>
             <Typography variant="h6" style={{ textTransform: "capitalize" }}>
-              {fullname.split(" ")[0]}
+              {fullname}
             </Typography>
             <Typography variant="caption">{email}</Typography>
           </Box>
@@ -180,29 +180,32 @@ const Profile = () => {
             ml: "auto",
           }}
         >
-            <Link
-              title = "Profile"
-              href="/profile"
-              style={{
-                color: "#3a3a3a",
-                display: "flex",
-                alignItems: "center",
-                gap: "20px",
-                padding: 16,
-              }}
-            >
-              <IconUser />
-              <Box>
-                <Typography fontWeight={800}>Profile</Typography>
-                <Typography>Account settings and more</Typography>
-              </Box>
-            </Link>
+          <Link
+            title="Profile"
+            href="/profile"
+            style={{
+              color: "#3a3a3a",
+              display: "flex",
+              alignItems: "center",
+              gap: "20px",
+              padding: 16,
+            }}
+          >
+            <IconUser />
+            <Box>
+              <Typography fontWeight={800}>Profile</Typography>
+              <Typography>Account settings and more</Typography>
+            </Box>
+          </Link>
         </Box>
         <Box sx={{ ml: "auto" }}>
           <Tooltip title="Logout" placement="bottom">
             <Button
               sx={{
                 background: "#3a3a3a",
+                "&:hover": {
+                  background: "#4b5563",
+                },
                 color: "#ffffff",
                 width: "100%",
                 paddingBlock: "10px",
@@ -213,7 +216,7 @@ const Profile = () => {
               }}
               aria-label="logout"
             >
-              <Typography>Logout</Typography>
+              <Typography className="logout">Logout</Typography>
             </Button>
           </Tooltip>
         </Box>
