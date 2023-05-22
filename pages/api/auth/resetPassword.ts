@@ -17,7 +17,6 @@ const Query: (
     email: string;
   }> = new Promise((resolve, reject) => {
     db.execute(query, values, function (err, results: any, fields) {
-      console.log(results);
       if (err) {
         resolve({
           valid: false,
@@ -37,6 +36,31 @@ const Query: (
     });
   });
   return promise;
+};
+
+const UpdatePasswordQuery: (
+  values: string[],
+  db: Connection,
+  query: string,
+  res: NextApiResponse
+) => Promise<boolean> = async (values, db, query, res) => {
+  return new Promise((resolve, reject) => {
+    db.execute(query, values, function (err, results: any, fields) {
+      if (err) {
+        res.status(200).json({
+          status: "error",
+          message: "Couldn't change password",
+        });
+        resolve(true);
+      } else {
+        res.status(200).json({
+          status: "success",
+          message: "Password Changed Successfully",
+        });
+        resolve(true);
+      }
+    });
+  });
 };
 
 export default async function handler(
@@ -61,19 +85,12 @@ export default async function handler(
         const salt = bcrypt.genSaltSync(10);
         const hashed_password = bcrypt.hashSync(body.password, salt);
         const val = [hashed_password, email];
-        db.execute(q, val, function (err, results: any, fields) {
-          if (err) {
-            res.status(200).json({
-              status: "error",
-              message: "Couldn't change password",
-            });
-          } else {
-            res.status(200).json({
-              status: "success",
-              message: "Password Changed Successfully",
-            });
-          }
-        });
+        const passUpdated = await UpdatePasswordQuery(val, db, q, res);
+        if (passUpdated) {
+          const q2 = "DELETE FROM forgotpassword WHERE email = ?";
+          const vals = [email];
+          db.execute(q2, vals, () => {});
+        }
       }
 
       db.end();
