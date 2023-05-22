@@ -25,8 +25,8 @@ import "react-quill/dist/quill.snow.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useRouter } from "next/router";
-import { createContext } from "react";
 import axios from "axios";
+import Script from "next/script";
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
@@ -140,24 +140,27 @@ export default (props: MyAppProps) => {
   }, []);
 
   return (
-    <Provider store={Store}>
-      <AuthContext.Provider
-        value={
-          authData
-            ? authData
-            : {
-                isLoggedin: false,
-                fullname: "",
-                image: "",
-                type: "",
-                userid: "",
-                email: "",
-              }
-        }
-      >
-        <MyApp {...props} />
-        <ToastContainer />
-      </AuthContext.Provider>
-    </Provider>
+
+
+      <Provider store={Store}>
+        <AuthContext.Provider
+          value={
+            authData
+              ? authData
+              : {
+                  isLoggedin: false,
+                  fullname: "",
+                  image: "",
+                  type: "",
+                  userid: "",
+                  email: "",
+                }
+          }
+        >
+          <MyApp {...props} />
+          <ToastContainer />
+        </AuthContext.Provider>
+      </Provider>
+    
   );
 };

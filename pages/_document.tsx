@@ -28,7 +28,9 @@ export default class MyDocument extends Document {
             function gtag(){window.dataLayer.push(arguments)}
             gtag('js', new Date()); 
             
-            gtag('config', 'UA-160007535-1');`}
+            gtag('config', 'UA-160007535-1',{
+              page_path: window.location.pathname
+            });`}
           </Script>
           {(this.props as any).emotionStyleTags}
         </Head>
