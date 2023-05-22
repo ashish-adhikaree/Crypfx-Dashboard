@@ -2,6 +2,7 @@ import * as React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import createEmotionServer from "@emotion/server/create-instance";
 import createEmotionCache from "../src/createEmotionCache";
+import Script from "next/script";
 
 export default class MyDocument extends Document {
   render() {
@@ -16,6 +17,19 @@ export default class MyDocument extends Document {
             rel="stylesheet"
           ></link>
           <meta name="emotion-insertion-point" content="" />
+          {/* Google tag (gtag.js) */}
+          <Script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=UA-160007535-1"
+          />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+            window.dataLayer = window.dataLayer || []; 
+            function gtag(){window.dataLayer.push(arguments)}
+            gtag('js', new Date()); 
+            
+            gtag('config', 'UA-160007535-1');`}
+          </Script>
           {(this.props as any).emotionStyleTags}
         </Head>
         <body>
