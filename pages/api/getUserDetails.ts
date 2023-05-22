@@ -1,6 +1,17 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getDB } from "./db";
 import { isAuthenticated } from "./isAuthenticated";
+import fs from "fs";
+import path from "path";
+
+const getBuffer = (filePath: string) => {
+  try {
+    const imageBuffer = fs.readFileSync(filePath);
+    return imageBuffer;
+  } catch {
+    return "";
+  }
+};
 
 export default async function handler(
   req: NextApiRequest,
@@ -21,6 +32,11 @@ export default async function handler(
             });
           } else {
             delete results[0].password;
+            const filePath = path.resolve(
+              ".",
+              `public/userprofile/${results[0].image}`
+            );
+            const imageBuffer = getBuffer(filePath);
             res.status(200).json({
               status: "success",
               message: "User details fetched successfully",
@@ -28,7 +44,7 @@ export default async function handler(
                 fullname: results[0].firstname + " " + results[0].lastname,
                 firstname: results[0].firstname,
                 lastname: results[0].lastname,
-                image: results[0].image,
+                image: imageBuffer,
                 type: results[0].type,
                 email: results[0].email,
                 username: results[0].username,

@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getDB } from "./db";
 import { isAuthenticated } from "./isAuthenticated";
 
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -11,7 +10,8 @@ export default async function handler(
     const [canAccess, userid, type] = isAuthenticated(req, res) as Array<any>;
     if (canAccess && type == "Admin") {
       const db = await getDB();
-      const query = "SELECT * from withdrawals";
+      const query =
+        "SELECT withdrawals.*, users.firstname, users.lastname from withdrawals JOIN users on withdrawals.customer = users.userid ORDER BY withdrawals.inserton desc";
       if (db) {
         db.execute(query, function (err, results: any, fields) {
           if (err) {
@@ -22,12 +22,13 @@ export default async function handler(
           } else {
             const response = results.map((row: any) => {
               return {
-                trader: row.customer,
+                traderid: row.customer,
+                tradername: row.firstname + " " + row.lastname,
                 amount: row.amount,
                 cryptocurrency: row.cryptocurrency,
                 address: row.address,
                 status: row.status,
-                addedat: new Date(row.inserton).toDateString(),
+                requestedon: new Date(row.inserton).toDateString(),
               };
             });
             res.status(200).json({

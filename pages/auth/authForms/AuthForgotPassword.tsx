@@ -25,6 +25,11 @@ const AuthForgotPassword: React.FC<PROPS> = ({
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setEmail(e.target.value);
         }}
+        onKeyUp={(e: React.KeyboardEvent) => {
+          if (e.key === "Enter" || e.keyCode === 13) {
+            handleForgot();
+          }
+        }}
       />
 
       <Button

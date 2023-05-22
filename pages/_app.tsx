@@ -58,7 +58,7 @@ const MyApp = (props: MyAppProps) => {
   ) {
     return <></>;
   }
-  
+
   return (
     <CacheProvider value={emotionCache}>
       <Head>
@@ -99,10 +99,15 @@ export default (props: MyAppProps) => {
       setAuthData({
         isLoggedin: true,
         fullname: data.data.fullname,
-        image: data.data.image,
+        image:
+          data.data.image && data.data.image !== ""
+            ? `data:image/png;base64,${Buffer.from(data.data.image).toString(
+                "base64"
+              )}`
+            : "",
         type: data.data.type,
         userid: data.data.userid,
-        email: data.data.email
+        email: data.data.email,
       });
     } else {
       setAuthData({
@@ -111,7 +116,7 @@ export default (props: MyAppProps) => {
         image: "",
         type: "",
         userid: "",
-        email: ""
+        email: "",
       });
     }
   };
@@ -130,7 +135,7 @@ export default (props: MyAppProps) => {
     }
   }, [authData]);
 
-  useEffect(() => {  
+  useEffect(() => {
     verifyjwt();
   }, []);
 
@@ -146,7 +151,7 @@ export default (props: MyAppProps) => {
                 image: "",
                 type: "",
                 userid: "",
-                email :""
+                email: "",
               }
         }
       >

@@ -4,6 +4,15 @@ import { isAuthenticated } from "./isAuthenticated";
 import fs from "fs";
 import path from "path";
 
+const getBuffer = (filePath: string) => {
+  try {
+    const imageBuffer = fs.readFileSync(filePath);
+    return imageBuffer;
+  } catch {
+    return "";
+  }
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -29,7 +38,7 @@ export default async function handler(
                 ".",
                 `public/kyc/${results[0].kyclink}`
               );
-              const imageBuffer = fs.readFileSync(filePath);
+              const imageBuffer = getBuffer(filePath);
               res.status(200).json({
                 status: "success",
                 data: { ...results[0], file: imageBuffer },

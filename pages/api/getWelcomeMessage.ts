@@ -6,7 +6,6 @@ export default async function handler(
 ) {
   try {
     const body = req.body;
-    console.log(body.convid);
     const db = await getDB();
     const query = "SELECT welcomemessage from website WHERE id = ?";
     const values = [1];

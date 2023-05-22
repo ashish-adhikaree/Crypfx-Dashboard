@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   CardContent,
   Grid,
@@ -22,6 +22,7 @@ import PageContainer from "../src/components/container/Pagecontainer";
 import axios from "axios";
 import { errorToast, successToast } from "../customToasts";
 import Head from "next/head";
+import { AuthContext } from "../context";
 
 const AccountTab = () => {
   const [userDetails, setUserDetails] = useState<any>({});
@@ -29,6 +30,10 @@ const AccountTab = () => {
   const passwordFormRef = useRef<HTMLFormElement>(null);
   const [isAlertOpen, setAlert] = useState(false);
   const [profile, setProfile] = useState<string>();
+  const [existingpfp, setExistingPfp] = useState<string>("");
+  const { userid } = useContext(AuthContext);
+
+  const [filetoupload, setFiletoUpload] = useState<any>();
 
   const getUserDetails = async () => {
     const { data } = await axios.get("/api/getUserDetails");
@@ -37,6 +42,31 @@ const AccountTab = () => {
       backupUserDetails.current = data.data;
     } else if (data.status === "error") {
       errorToast(data.message);
+    }
+  };
+  const getPFP = async () => {
+    const { data } = await axios.post("/api/getpfp", {
+      userid: userid,
+    });
+    if (data.status === "success") {
+      setProfile(data.image);
+      setExistingPfp(data.filename);
+    }
+  };
+
+  const uploadPFP = async () => {
+    const temp = new FormData();
+    if (filetoupload) {
+      temp.append("file", filetoupload);
+      temp.append("existingpfp", existingpfp);
+      const { data } = await axios.post("/api/uploadpfp", temp);
+      if (data.status === "success") {
+        successToast(data.message);
+      } else if (data.status === "error") {
+        errorToast(data.message);
+      }
+    } else {
+      errorToast("Select an image first");
     }
   };
 
@@ -79,6 +109,7 @@ const AccountTab = () => {
 
   useEffect(() => {
     getUserDetails();
+    getPFP();
   }, []);
 
   return (
@@ -135,7 +166,7 @@ const AccountTab = () => {
       <Grid container spacing={3} paddingTop={3}>
         {/* Change Profile */}
         <Grid item xs={12} lg={6}>
-          <BlankCard>
+          <BlankCard sx={{ height: "100%" }}>
             <CardContent>
               <Typography variant="h5" mb={1}>
                 Change Profile
@@ -143,12 +174,21 @@ const AccountTab = () => {
               <Typography color="textSecondary" mb={3}>
                 Change your profile picture from here
               </Typography>
-              <Box textAlign="center" display="flex" justifyContent="center">
+              <Box
+                textAlign="center"
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+              >
                 <Box>
                   <Avatar
                     src={
-                      profile && profile.length !== 0
-                        ? profile
+                      profile && profile.length !== 0 && !filetoupload
+                        ? `data:image/png;base64,${Buffer.from(
+                            profile
+                          ).toString("base64")}`
+                        : filetoupload
+                        ? URL.createObjectURL(filetoupload)
                         : "/images/profile/user-1.jpg"
                     }
                     alt={"user1"}
@@ -164,24 +204,20 @@ const AccountTab = () => {
                       variant="contained"
                       color="primary"
                       component="label"
+                      onChange={(e: any) => {
+                        if (e.target.files) {
+                          setFiletoUpload(e.target.files[0]);
+                        }
+                      }}
                     >
                       Upload
-                      <input
-                        hidden
-                        accept="image/*"
-                        type="file"
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                          if (e.target.files) {
-                            setProfile(URL.createObjectURL(e.target.files[0]));
-                          }
-                        }}
-                      />
+                      <input hidden name="pfp" accept="image/*" type="file" />
                     </Button>
                     <Button
                       variant="outlined"
                       color="error"
                       onClick={() => {
-                        setProfile("");
+                        setFiletoUpload(undefined);
                       }}
                     >
                       Reset
@@ -190,6 +226,11 @@ const AccountTab = () => {
                   <Typography variant="subtitle1" color="textSecondary" mb={4}>
                     Allowed JPG, GIF or PNG. Max size of 800K
                   </Typography>
+                </Box>
+                <Box display="flex" justifyContent="center">
+                  <Button sx={{ width: "fit-content" }} onClick={uploadPFP}>
+                    Change Profile Picture
+                  </Button>
                 </Box>
               </Box>
             </CardContent>

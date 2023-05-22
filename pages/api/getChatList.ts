@@ -10,7 +10,7 @@ export default async function handler(
     if (canAccess && type == "Admin") {
       const db = await getDB();
       const query =
-        "SELECT u.userid, u.firstname, u.lastname,u.email, COUNT(m.responded) AS unreads FROM users u LEFT JOIN messages m ON m.convid = u.userid AND m.responded = 0 GROUP BY u.userid ORDER BY unreads desc";
+        "SELECT u.userid, u.firstname, u.lastname,u.email, COUNT(m.responded) AS notresponded FROM users u LEFT JOIN messages m ON m.convid = u.userid AND m.responded = 0 GROUP BY u.userid ORDER BY notresponded desc";
       const values = ["Customer", 0];
       if (db) {
         db.execute(query, values, function (err, results: any, fields) {
@@ -26,7 +26,7 @@ export default async function handler(
                 firstname: row.firstname,
                 lastname: row.lastname,
                 email: row.email,
-                unreads: row.unreads,
+                notresponded: row.notresponded,
               };
             });
             res.status(200).json({

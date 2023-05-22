@@ -8,7 +8,7 @@ import { AuthContext } from "../../context";
 import { Box, Typography } from "@mui/material";
 
 const title = "Chats";
-const columns = ["USER ID", "FIRST NAME", "LAST NAME", "EMAIL", "UNREADS"];
+const columns = ["USER ID", "FIRST NAME", "LAST NAME", "EMAIL", "NOT RESPONDED"];
 
 const Customers = () => {
   const router = useRouter();

@@ -3,24 +3,38 @@ import Logo from "../../../src/layouts/full/shared/logo/Logo";
 import PageContainer from "../../../src/components/container/Pagecontainer";
 import AuthForgotPassword from "../authForms/AuthForgotPassword";
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { errorToast, successToast } from "../../../customToasts";
+import { useRouter } from "next/router";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
+  const router = useRouter();
 
   const handleForgot = async () => {
-    const { data } = await axios.post("/api/auth/forgotPassword", {
-      email: email,
-    });
-    if (data.status === "success") {
-      setEmail("")
-      successToast("Password reset link sent to your email.");
-    } else if (data.status === "error") {
-      errorToast(data.message);
+    if (email !== "") {
+      const { data } = await axios.post("/api/auth/forgotPassword", {
+        email: email,
+      });
+      if (data.status === "success") {
+        setEmail("");
+        successToast("Password reset link sent to your email.");
+      } else if (data.status === "error") {
+        errorToast(data.message);
+      }
+    } else {
+      errorToast("Fill up the email first");
     }
   };
+
+  useEffect(() => {
+    const e = router.query.email;
+    if (e) {
+      setEmail(e as string);
+    }
+  });
+  
   return (
     <>
       <Head>
