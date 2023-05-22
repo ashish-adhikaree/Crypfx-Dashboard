@@ -132,7 +132,7 @@ const AccountTab = () => {
       description="This is account settings page"
     >
       <Head>
-        <title>Account Settings | CrypFX</title>
+        <title>Account Settings | CrypfX</title>
       </Head>
       <Modal
         open={isAlertOpen}
