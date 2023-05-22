@@ -10,7 +10,9 @@ const upload = multer({
     filename: (req, file, cb) =>
       cb(
         null,
-        `${Math.random() * 19244303459}${Date.now()}${file.originalname}`
+        `${
+          Math.random() * 19244303459
+        }${Date.now()}${file.originalname.replaceAll(" ", "")}`
       ),
   }),
 });

@@ -14,7 +14,6 @@ import {
 import BlankCard from "../src/components/shared/BlankCard";
 import CustomTextField from "../src/components/forms/theme-elements/CustomTextField";
 import CustomFormLabel from "../src/components/forms/theme-elements/CustomFormLabel";
-import CustomSelect from "../src/components/forms/theme-elements/CustomSelect";
 
 // images
 import { Stack } from "@mui/system";
@@ -49,6 +48,7 @@ const AccountTab = () => {
       userid: userid,
     });
     if (data.status === "success") {
+      setFiletoUpload(null);
       setProfile(data.image);
       setExistingPfp(data.filename);
     }
@@ -61,12 +61,26 @@ const AccountTab = () => {
       temp.append("existingpfp", existingpfp);
       const { data } = await axios.post("/api/uploadpfp", temp);
       if (data.status === "success") {
+        getPFP();
         successToast(data.message);
       } else if (data.status === "error") {
         errorToast(data.message);
       }
     } else {
       errorToast("Select an image first");
+    }
+  };
+
+  const removePFP = async () => {
+    console.log(existingpfp);
+    const { data } = await axios.post("/api/removepfp", {
+      existingpfp: existingpfp,
+    });
+    if (data.status === "success") {
+      getPFP();
+      successToast(data.message);
+    } else if (data.status === "error") {
+      errorToast(data.message);
     }
   };
 
@@ -114,7 +128,7 @@ const AccountTab = () => {
 
   return (
     <PageContainer
-      title="Account Settings | CrypFX"
+      title="Account Settings | Crypfx"
       description="This is account settings page"
     >
       <Head>
@@ -217,7 +231,7 @@ const AccountTab = () => {
                       variant="outlined"
                       color="error"
                       onClick={() => {
-                        setFiletoUpload(undefined);
+                        setFiletoUpload("");
                       }}
                     >
                       Reset
@@ -228,9 +242,30 @@ const AccountTab = () => {
                   </Typography>
                 </Box>
                 <Box display="flex" justifyContent="center">
-                  <Button sx={{ width: "fit-content" }} onClick={uploadPFP}>
-                    Change Profile Picture
-                  </Button>
+                  <Stack
+                    sx={{
+                      direction: {
+                        xs: "column",
+                        md: "row",
+                      },
+                    }}
+                    justifyContent="center"
+                    spacing={2}
+                    my={3}
+                  >
+                    <Button sx={{ width: "fit-content" }} onClick={uploadPFP}>
+                      Change Profile Picture
+                    </Button>
+                    {profile && profile.length !== 0 && (
+                      <Button
+                        color="error"
+                        sx={{ width: "fit-content" }}
+                        onClick={removePFP}
+                      >
+                        Remove Profile Picture
+                      </Button>
+                    )}
+                  </Stack>
                 </Box>
               </Box>
             </CardContent>
