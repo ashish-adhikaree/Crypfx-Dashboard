@@ -19,7 +19,7 @@ export default class MyDocument extends Document {
           <meta name="emotion-insertion-point" content="" />
           {/* Google tag (gtag.js) */}
           <Script
-            async
+            strategy="afterInteractive"
             src="https://www.googletagmanager.com/gtag/js?id=UA-160007535-1"
           />
           <Script id="google-analytics" strategy="afterInteractive">
