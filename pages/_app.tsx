@@ -71,8 +71,8 @@ const MyApp = ({ router, ...props }: any) => {
           {router.asPath.includes("auth") ? (
             <Component {...pageProps} key={router.asPath} />
           ) : (
-            <Layout>
-              <Component {...pageProps} key={router.asPath} />
+            <Layout key={router.asPath}>
+              <Component {...pageProps} />
             </Layout>
           )}
         </RTL>
