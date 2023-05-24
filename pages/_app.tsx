@@ -93,12 +93,9 @@ export default (props: MyAppProps) => {
 
   const router = useRouter();
   useEffect(() => {
-    console.log("hello guys");
     NProgress.configure({ showSpinner: false });
 
     Router.events.on("routeChangeStart", () => {
-      console.log("hello guys started");
-
       NProgress.start();
     });
     Router.events.on("routeChangeComplete", () => {
