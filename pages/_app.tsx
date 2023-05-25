@@ -22,7 +22,6 @@ import NProgress from "nprogress";
 
 import "../src/_mockApis";
 import "../src/utils/i18n";
-
 // CSS FILES
 import "react-quill/dist/quill.snow.css";
 import "slick-carousel/slick/slick.css";
@@ -150,24 +149,26 @@ export default (props: MyAppProps) => {
   }, []);
 
   return (
-    <Provider store={Store}>
-      <AuthContext.Provider
-        value={
-          authData
-            ? authData
-            : {
-                isLoggedin: false,
-                fullname: "",
-                image: "",
-                type: "",
-                userid: "",
-                email: "",
-              }
-        }
-      >
-        <MyApp {...props} />
-        <ToastContainer />
-      </AuthContext.Provider>
-    </Provider>
+    <>
+      <Provider store={Store}>
+        <AuthContext.Provider
+          value={
+            authData
+              ? authData
+              : {
+                  isLoggedin: false,
+                  fullname: "",
+                  image: "",
+                  type: "",
+                  userid: "",
+                  email: "",
+                }
+          }
+        >
+          <MyApp {...props} />
+          <ToastContainer />
+        </AuthContext.Provider>
+      </Provider>
+    </>
   );
 };

@@ -2,7 +2,6 @@ import * as React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import createEmotionServer from "@emotion/server/create-instance";
 import createEmotionCache from "../src/createEmotionCache";
-import Script from "next/script";
 
 export default class MyDocument extends Document {
   render() {
@@ -17,21 +16,30 @@ export default class MyDocument extends Document {
             rel="stylesheet"
           ></link>
           <meta name="emotion-insertion-point" content="" />
-          {/* Google tag (gtag.js) */}
-          <Script
-            strategy="afterInteractive"
-            src="https://www.googletagmanager.com/gtag/js?id=UA-160007535-1"
-          />
-          <Script id="google-analytics" strategy="afterInteractive">
-            {`
-            window.dataLayer = window.dataLayer || []; 
-            function gtag(){window.dataLayer.push(arguments)}
-            gtag('js', new Date()); 
-            
-            gtag('config', 'UA-160007535-1',{
-              page_path: window.location.pathname
-            });`}
-          </Script>
+          {/* <!-- Meta Pixel Code --> */}
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '993473925355420');
+fbq('track', 'PageView');`,
+            }}
+          ></script>
+          <noscript>
+            <img
+              height="1"
+              width="1"
+              style={{ display: "none" }}
+              src="https://www.facebook.com/tr?id=993473925355420&ev=PageView&noscript=1"
+            />
+          </noscript>
+          {/* <!-- End Meta Pixel Code --> */}
           {(this.props as any).emotionStyleTags}
         </Head>
         <body>
